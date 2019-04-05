@@ -13,3 +13,8 @@ For development, add sources
 cd prometheus-exporter-github
 docker run -v $(pwd):/app -p 80:80 --rm -it prometheus-exporter-github
 ```
+
+# Lint
+```
+docker run -v $(pwd):/app --rm -it prometheus-exporter-github eslint
+```

@@ -11,4 +11,5 @@ RUN yarn install
 COPY . .
 
 EXPOSE 80
-CMD [ "yarn", "start" ]
+ENTRYPOINT [ "/usr/local/bin/yarn" ]
+CMD [ "start" ]
