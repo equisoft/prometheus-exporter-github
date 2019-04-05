@@ -1,0 +1,32 @@
+{
+  "name": "prometheus-exporter-github",
+  "description": "",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "license": "LGPL-3.0-only",
+  "author": "equisoft",
+  "keywords": [
+    "prometheus",
+    "github",
+    "exporter"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/equisoft/prometheus-exporter-github"
+  },
+  "scripts": {
+    "eslint": "eslint src",
+    "eslint:ci": "yarn eslint --format junit -o build/tests/eslint/junit.xml",
+    "start": "node src/index.js"
+  },
+  "devDependencies": {
+    "@equisoft/eslint-config": "^0.0.4",
+    "eslint": "^5.16.0",
+    "eslint-plugin-import": "^2.16.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^16.23.2",
+    "express": "^4.16.4",
+    "winston": "^3.2.1"
+  }
+}
