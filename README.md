@@ -22,17 +22,18 @@ docker run -v $(pwd):/app --rm -it prometheus-exporter-github eslint
 
 ## Environment Variables
 #### LOG_LEVEL
-A value in `silly`, `debug`, `verbose`, `info`, `warn`, `error`.
+Value in `silly`, `debug`, `verbose`, `info`, `warn`, `error`.
 Default `info`.
 See [winston](https://www.npmjs.com/package/winston).
 #### NODE_ENV
-A value in `development`, `production`.
+Value in `development`, `production`.
 Default `production`.
 #### GITHUB_TOKEN
-A personal access token, OAuth access token, GitHub app bearer token or GitHub app installation token.
+Personal access token, OAuth access token, GitHub app bearer token or GitHub app installation token.
 See [get a Github token](https://github.com/settings/developers)
 #### GITHUB_REPOSITORIES
-A comma separated value of `owner/repository`.
+Comma separated value of `owner/repository`.
 Example `owner1/repo1,owner2/repo2`
-
-
+#### HTTP_PORT
+Port number the http server will listen to.
+Default `80`.

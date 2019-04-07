@@ -13,4 +13,7 @@ module.exports = {
     log: {
         level: process.env.LOG_LEVEL || 'debug',
     },
+    http: {
+        port: process.env.HTTP_PORT || 80,
+    },
 };

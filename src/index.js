@@ -28,8 +28,8 @@ app.get('/metrics', async (req, res) => {
     res.json({ message: 'Hello metrics' });
 });
 
-const server = app.listen(80, () => {
-    logger.info('App server listening on port 80!');
+const server = app.listen(config.http.port, () => {
+    logger.info(`App server listening on port ${config.http.port}!`);
 });
 
 
