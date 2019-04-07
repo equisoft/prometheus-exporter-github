@@ -1,9 +1,44 @@
 const express = require('express');
 const winston = require('winston');
-// const Octokit = require('@octokit/rest');
+const Octokit = require('@octokit/rest');
 
+// Configuration parsing
+const repositories = process.env.GITHUB_REPOSITORIES.split(',').map(element => {
+    let owner = '';
+    let repository = '';
+    [owner, repository] = element.split('/');
+    return { owner, repository };
+});
+const config = {
+    repositories,
+    github: {
+        token: process.env.GITHUB_TOKEN || 'MISSING',
+    },
+    log: {
+        level: process.env.LOG_LEVEL || 'debug',
+    },
+};
+
+// Log initialization
+winston.level = config.log.level;
 winston.add(new winston.transports.Console());
-// const octokit = new Octokit();
+
+// Debug environment configuration
+winston.silly(process.env);
+winston.silly(config);
+
+// Github client initialization
+const octokit = new Octokit({
+    auth: config.github.token,
+    log: {
+        debug: winston.debug,
+        info: winston.info,
+        warn: winston.warn,
+        error: winston.error,
+    },
+});
+
+// HTTP servers
 const app = express();
 app.get('/', (req, res) => {
     res.json({ message: 'Hello World!' });
