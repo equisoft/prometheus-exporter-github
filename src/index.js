@@ -10,12 +10,7 @@ logger.silly(config);
 // Github client initialization
 const octokit = new Octokit({
     auth: config.github.token,
-    log: {
-        debug: logger.debug,
-        info: logger.info,
-        warn: logger.warn,
-        error: logger.error,
-    },
+    log: logger,
 });
 
 // HTTP servers
