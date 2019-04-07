@@ -1,7 +1,9 @@
 const express = require('express');
+const Prometheus = require('prom-client');
 const Octokit = require('@octokit/rest');
 const config = require('./config');
 const logger = require('./logger');
+const { githubRepoOpenIssuesGauge } = require('./metrics');
 
 // Debug environment configuration
 logger.silly(process.env);
@@ -20,7 +22,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/metrics', async (req, res) => {
-    res.json({ message: 'Hello metrics' });
+    res.set('Content-Type', Prometheus.register.contentType);
+
+    const { data } = await octokit.repos.get({
+        owner: config.repositories[0].owner,
+        repo: config.repositories[0].repository,
+    });
+
+    githubRepoOpenIssuesGauge.set({ repo: config.repositories[0].repository }, data.open_issues_count);
+
+    res.end(Prometheus.register.metrics());
 });
 
 const server = app.listen(config.http.port, () => {
