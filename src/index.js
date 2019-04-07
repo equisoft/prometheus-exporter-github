@@ -32,15 +32,18 @@ const server = app.listen(config.http.port, () => {
     logger.info(`App server listening on port ${config.http.port}!`);
 });
 
-
 ['SIGINT', 'SIGTERM'].forEach(signal => process.on(signal, () => {
     logger.info(`Received signal ${signal}'`);
     server.close(err => {
         logger.info('Server is stopping');
         if (err) {
             logger.error(err);
-            process.exit(1);
         }
         process.exit(0);
     });
+    // Make sure we forcefully stop the server even if server is still responding
+    setTimeout(() => {
+        logger.warn('Could not close connections in time, forcefully shutting down');
+        process.exit(0);
+    }, 2000);
 }));
