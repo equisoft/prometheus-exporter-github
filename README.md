@@ -33,11 +33,11 @@ See [log format](https://github.com/winstonjs/logform#formats) for more possible
 Value in `development`, `production`.
 Default `production`.
 #### GITHUB_TOKEN
-Personal access token, OAuth access token, GitHub app bearer token or GitHub app installation token.
-See [get a Github token](https://github.com/settings/developers)
+Personal access token, OAuth access token, GitHub app bearer token or GitHub app installation token. If you need access to private repositories add the whole `repo` scope.
+See [get a Github token](https://github.com/settings/developers).
 #### GITHUB_REPOSITORIES
 Comma separated value of `owner/repository`.
-Example `owner1/repo1,owner2/repo2`
+Example `owner1/repo1,owner2/repo2`.
 #### HTTP_PORT
 Port number the http server will listen to.
 Default `80`.
