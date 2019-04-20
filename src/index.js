@@ -6,7 +6,9 @@ const logger = require('./logger');
 const { githubRepoOpenIssuesGauge } = require('./metrics');
 
 // Debug environment configuration
+logger.silly('Environment variables');
 logger.silly(process.env);
+logger.silly('Configuration');
 logger.silly(config);
 
 // Github client initialization
@@ -24,12 +26,14 @@ app.get('/', (req, res) => {
 app.get('/metrics', async (req, res) => {
     res.set('Content-Type', Prometheus.register.contentType);
 
-    const { data } = await octokit.repos.get({
-        owner: config.repositories[0].owner,
-        repo: config.repositories[0].repository,
+    const promises = config.repositories.map(async (repository) => {
+        const { data } = await octokit.repos.get({
+            owner: repository.owner,
+            repo: repository.repository,
+        });
+        githubRepoOpenIssuesGauge.set({ owner: repository.owner, repo: repository.repository }, data.open_issues_count);
     });
-
-    githubRepoOpenIssuesGauge.set({ repo: config.repositories[0].repository }, data.open_issues_count);
+    await Promise.all(promises);
 
     res.end(Prometheus.register.metrics());
 });
