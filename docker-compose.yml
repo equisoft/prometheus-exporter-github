@@ -1,0 +1,22 @@
+version: '3.6'
+services:
+  exporter-github:
+    build: .
+    environment:
+      - NODE_ENV
+      - HTTP_PORT
+      - LOG_FORMAT
+      - LOG_LEVEL
+      - GITHUB_TOKEN
+      - GITHUB_REPOSITORIES
+    ports:
+    - "80:80"
+    restart: always
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+    - "9090:9090"
+    volumes:
+    - ./.docker-compose/prometheus/etc/prometheus:/etc/prometheus
+    depends_on:
+    - exporter-github
