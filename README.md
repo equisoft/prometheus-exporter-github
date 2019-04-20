@@ -5,14 +5,22 @@ prometheus-exporter-github
 ### Build && Run
 ```
 docker build . -t prometheus-exporter-github
-docker run -p 80:80 --rm -it prometheus-exporter-github
+docker run -e GITHUB_REPOSITORIES=owner1/repo1 -e LOG_LEVEL=silly -p 80:80 --rm -it prometheus-exporter-github
 ```
 Server is accessible on http://localhost
 
 For development, add sources
 ```
 cd prometheus-exporter-github
-docker run -v $(pwd):/app -p 80:80 --rm -it prometheus-exporter-github
+docker run -e GITHUB_TOKEN=your-github-personnal-token -e GITHUB_REPOSITORIES=owner1/repo1 -e LOG_LEVEL=silly -v $(pwd):/app -p 80:80 --rm -it prometheus-exporter-github
+```
+
+### Integration with Prometheus
+A docker-compose file provide integration with prometheus server.
+```
+export GITHUB_TOKEN=your-github-personnal-token
+export GITHUB_REPOSITORIES=owner1/repo1
+docker-compose up
 ```
 
 ### Lint
