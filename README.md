@@ -43,9 +43,8 @@ Default `production`.
 #### GITHUB_TOKEN
 Personal access token, OAuth access token, GitHub app bearer token or GitHub app installation token. If you need access to private repositories add the whole `repo` scope.
 See [get a Github token](https://github.com/settings/developers).
-#### GITHUB_REPOSITORIES
-Comma separated value of `owner/repository`.
-Example `owner1/repo1,owner2/repo2`.
+#### GITHUB_ORGANISATION
+Organisation name.
 #### HTTP_PORT
 Port number the http server will listen to.
 Default `80`.

@@ -1,9 +1,10 @@
 const express = require('express');
 const Prometheus = require('prom-client');
 const Octokit = require('@octokit/rest');
+const NodeCache = require('node-cache');
 const config = require('./config');
 const logger = require('./logger');
-const { githubRepoOpenIssuesGauge } = require('./metrics');
+const { githubRepoOpenIssuesGauge, githubRepoPullRequestsGauge, githubRepoBranchesGauge } = require('./metrics');
 
 // Debug environment configuration
 logger.silly('Environment variables');
@@ -17,25 +18,55 @@ const octokit = new Octokit({
     log: logger,
 });
 
+// Caching initialization
+const caching = new NodeCache({
+    stdTTL: 3600
+});
+
 // HTTP servers
 const app = express();
-app.get('/', (req, res) => {
-    res.json({ message: 'Hello World!' });
-});
 
 app.get('/metrics', async (req, res) => {
     res.set('Content-Type', Prometheus.register.contentType);
+    let metrics = caching.get('metrics');
+    if (metrics === undefined) {
+        logger.debug('Cache miss - fetching all github data');
+        let promises = [];
+        const options = octokit.repos.listForOrg.endpoint.merge({ org: config.organisation, sort: 'updated' });
+        for await (const response of octokit.paginate.iterator(options)) {
+            response.data.reduce(async (previousPromise, repository) => {
+                acc = await previousPromise;
+                acc.push(
+                    new Promise(resolve => {
+                        githubRepoOpenIssuesGauge.set({ owner: repository.owner.login, repo: repository.name }, repository.open_issues_count);
+                        resolve();
+                    }),
+                    new Promise(async resolve => {
+                        pulls = await octokit.pulls.list({ owner: repository.owner.login, repo: repository.name });
+                        githubRepoPullRequestsGauge.set( { owner: repository.owner.login, repo: repository.name }, pulls.data.length);
+                        resolve();
+                    }),
+                    new Promise(async resolve => {
+                        branches = await octokit.repos.listBranches({ owner: repository.owner.login, repo: repository.name });
+                        githubRepoBranchesGauge.set( { owner: repository.owner.login, repo: repository.name }, branches.data.length);
+                        resolve();
+                    }),
+                );
+                return acc;
+            }, Promise.resolve(promises));
+        }
+        await Promise.all(promises);
 
-    const promises = config.repositories.map(async (repository) => {
-        const { data } = await octokit.repos.get({
-            owner: repository.owner,
-            repo: repository.repository,
-        });
-        githubRepoOpenIssuesGauge.set({ owner: repository.owner, repo: repository.repository }, data.open_issues_count);
-    });
-    await Promise.all(promises);
+        metrics = Prometheus.register.metrics();
+        const ratelimit = await octokit.rateLimit.get();
+        // Github rate limit reset after 1 hour (3600 seconds)
+        const cacheTTL = 3600/Math.ceil(ratelimit.data.rate.limit/(ratelimit.data.rate.limit - ratelimit.data.rate.remaining)); 
+        logger.debug(`Cache TTL is set to ${cacheTTL} seconds`);
+        logger.silly(`Github rate limit left is ${ratelimit.data.rate.remaining}/${ratelimit.data.rate.limit}. Reset will occur at ${ratelimit.data.rate.reset} epoch timestamp`);
+        caching.set('metrics', metrics, cacheTTL);
+    }
 
-    res.end(Prometheus.register.metrics());
+    res.end(metrics);
 });
 
 const server = app.listen(config.http.port, () => {

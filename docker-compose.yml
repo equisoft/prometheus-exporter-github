@@ -8,9 +8,11 @@ services:
       - LOG_FORMAT
       - LOG_LEVEL
       - GITHUB_TOKEN
-      - GITHUB_REPOSITORIES
+      - GITHUB_ORGANISATION
     ports:
     - "80:80"
+    volumes:
+    - .:/app
     restart: always
   prometheus:
     image: prom/prometheus:latest
