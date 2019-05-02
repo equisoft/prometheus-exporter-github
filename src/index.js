@@ -1,10 +1,10 @@
 const express = require('express');
 const Prometheus = require('prom-client');
-const Octokit = require('@octokit/rest');
-const NodeCache = require('node-cache');
+const Octokit = require('@octokit/rest')
+    .plugin(require('@octokit/plugin-throttling'));
 const config = require('./config');
 const logger = require('./logger');
-const { githubRepoOpenIssuesGauge, githubRepoPullRequestsGauge, githubRepoBranchesGauge } = require('./metrics');
+const github = require('./github');
 
 // Debug environment configuration
 logger.silly('Environment variables');
@@ -13,60 +13,55 @@ logger.silly('Configuration');
 logger.silly(config);
 
 // Github client initialization
+let current_request_count = 0;
 const octokit = new Octokit({
     auth: config.github.token,
     log: logger,
+    throttle: {
+        onRateLimit: (retry_after, options) => {
+            logger.silly(`Request quota exhausted for ${options.method} ${options.url} - waiting ${retry_after} seconds before going on with requests`);
+            return true;
+        },
+        onAbuseLimit: (retry_after, options) => {
+            logger.warn(`Request abuse detected for ${options.method} ${options.url} - waiting ${retry_after} seconds before going on with requests`);
+            return true;
+        },
+    },
 });
+octokit.hook.before('request', async (options) => {
+    logger.debug(`New request ${options.method} ${options.url}`);
+    current_request_count += 1;
+});
+octokit.hook.after('request', async (response, options) => {
+    logger.debug(`Request ${options.method} ${options.url} finished`);
+    current_request_count -= 1;
+});
+octokit.hook.error('request', async (error, options) => {
+    current_request_count -= 1;
+    logger.error(`Request ${options.method} ${options.url} error`);
+    throw error
+})
 
-// Caching initialization
-const caching = new NodeCache({
-    stdTTL: 3600
-});
+// Start the madness
+async function fetchGithubData() {
+    logger.debug(`Current github request count is ${current_request_count}`);
+    if (current_request_count === 0) {
+        logger.debug('Triggering github data fetch');
+        await github.processOrganisationRepositories(octokit, config.organisation);
+        logger.debug('Github data fetch complete');
+    }
+    setTimeout(fetchGithubData, 1200000);
+}
+fetchGithubData();
 
 // HTTP servers
 const app = express();
 
 app.get('/metrics', async (req, res) => {
+    logger.info('/metrics hit');
     res.set('Content-Type', Prometheus.register.contentType);
-    let metrics = caching.get('metrics');
-    if (metrics === undefined) {
-        logger.debug('Cache miss - fetching all github data');
-        let promises = [];
-        const options = octokit.repos.listForOrg.endpoint.merge({ org: config.organisation, sort: 'updated' });
-        for await (const response of octokit.paginate.iterator(options)) {
-            response.data.reduce(async (previousPromise, repository) => {
-                acc = await previousPromise;
-                acc.push(
-                    new Promise(resolve => {
-                        githubRepoOpenIssuesGauge.set({ owner: repository.owner.login, repo: repository.name }, repository.open_issues_count);
-                        resolve();
-                    }),
-                    new Promise(async resolve => {
-                        pulls = await octokit.pulls.list({ owner: repository.owner.login, repo: repository.name });
-                        githubRepoPullRequestsGauge.set( { owner: repository.owner.login, repo: repository.name }, pulls.data.length);
-                        resolve();
-                    }),
-                    new Promise(async resolve => {
-                        branches = await octokit.repos.listBranches({ owner: repository.owner.login, repo: repository.name });
-                        githubRepoBranchesGauge.set( { owner: repository.owner.login, repo: repository.name }, branches.data.length);
-                        resolve();
-                    }),
-                );
-                return acc;
-            }, Promise.resolve(promises));
-        }
-        await Promise.all(promises);
-
-        metrics = Prometheus.register.metrics();
-        const ratelimit = await octokit.rateLimit.get();
-        // Github rate limit reset after 1 hour (3600 seconds)
-        const cacheTTL = 3600/Math.ceil(ratelimit.data.rate.limit/(ratelimit.data.rate.limit - ratelimit.data.rate.remaining)); 
-        logger.debug(`Cache TTL is set to ${cacheTTL} seconds`);
-        logger.silly(`Github rate limit left is ${ratelimit.data.rate.remaining}/${ratelimit.data.rate.limit}. Reset will occur at ${ratelimit.data.rate.reset} epoch timestamp`);
-        caching.set('metrics', metrics, cacheTTL);
-    }
-
-    res.end(metrics);
+    response = Prometheus.register.metrics();
+    res.end(response);
 });
 
 const server = app.listen(config.http.port, () => {
