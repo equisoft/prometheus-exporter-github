@@ -50,11 +50,38 @@ exports.githubRepoPullRequestsOpenApprovedGauge = new Prometheus.Gauge({
     help: 'Total number of open pull requests with an approved review',
     labelNames: ['owner', 'repo'],
 });
-exports.githubRepoPullRequestsOpenWaitingApprovalGauge = new Prometheus.Gauge({
-    name: 'github_repo_pull_requests_open_waiting_approval_count',
-    help: 'Total number of open pull requests waiting to be approved',
-    labelNames: ['owner', 'repo'],
+
+exports.githubPullRequestsGauge = new Prometheus.Gauge({
+    name: 'github_pull_requests_count',
+    help: 'Total number of pull requests',
+    labelNames: ['owner'],
 });
+exports.githubPullRequestsOpenGauge = new Prometheus.Gauge({
+    name: 'github_pull_requests_open_count',
+    help: 'Total number of open pull requests',
+    labelNames: ['owner'],
+});
+exports.githubPullRequestsCloseGauge = new Prometheus.Gauge({
+    name: 'github_pull_requests_close_count',
+    help: 'Total number of closed pull requests',
+    labelNames: ['owner'],
+});
+exports.githubPullRequestsOpenApprovedGauge = new Prometheus.Gauge({
+    name: 'github_pull_requests_open_approved_count',
+    help: 'Total number of open pull requests with an approved review',
+    labelNames: ['owner'],
+});
+exports.githubPullRequestsOpenWaitingApprovalGauge = new Prometheus.Gauge({
+    name: 'github_pull_requests_open_waiting_approval_count',
+    help: 'Total number of open pull requests waiting to be approved',
+    labelNames: ['owner'],
+});
+exports.githubPullRequestsMergedGauge = new Prometheus.Gauge({
+    name: 'github_pull_requests_merged_count',
+    help: 'Total number of merged pull requests',
+    labelNames: ['owner'],
+});
+
 exports.githubRepoBranchesGauge = new Prometheus.Gauge({
     name: 'github_repo_branch_count',
     help: 'Total number of branches',
