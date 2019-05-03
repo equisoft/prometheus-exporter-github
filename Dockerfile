@@ -7,7 +7,8 @@ ENV LOG_LEVEL="info" \
     GITHUB_ORGANISATION="org1" \
     HTTP_PORT=80
 
-COPY package*.json .
+COPY package.json .
+COPY yarn.lock .
 
 RUN yarn install
 
