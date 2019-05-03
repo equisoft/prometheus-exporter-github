@@ -13,7 +13,6 @@ logger.silly('Configuration');
 logger.silly(config);
 
 // Github client initialization
-let currentRequestCount = 0;
 const octokit = new Octokit({
     auth: config.github.token,
     log: logger,
@@ -30,26 +29,20 @@ const octokit = new Octokit({
 });
 octokit.hook.before('request', async options => {
     logger.debug(`New request ${options.method} ${options.url}`);
-    currentRequestCount += 1;
 });
 octokit.hook.after('request', async (response, options) => {
     logger.debug(`Request ${options.method} ${options.url} finished`);
-    currentRequestCount -= 1;
 });
 octokit.hook.error('request', async (error, options) => {
-    currentRequestCount -= 1;
     logger.error(`Request ${options.method} ${options.url} error`);
     throw error;
 });
 
 // Start the madness
 async function fetchGithubData() {
-    logger.debug(`Current github request count is ${currentRequestCount}`);
-    if (currentRequestCount === 0) {
-        logger.debug('Triggering github data fetch');
-        await github.processOrganisationRepositories(octokit, config.organisation);
-        logger.debug('Github data fetch complete');
-    }
+    logger.debug('Triggering github data fetch');
+    await github.processOrganisationRepositories(octokit, config.organisation);
+    logger.debug('Github data fetch complete');
     setTimeout(fetchGithubData, 1200000);
 }
 fetchGithubData();
