@@ -28,7 +28,7 @@ const octokit = new Octokit({
         },
     },
 });
-octokit.hook.before('request', async (options) => {
+octokit.hook.before('request', async options => {
     logger.debug(`New request ${options.method} ${options.url}`);
     current_request_count += 1;
 });
@@ -39,8 +39,8 @@ octokit.hook.after('request', async (response, options) => {
 octokit.hook.error('request', async (error, options) => {
     current_request_count -= 1;
     logger.error(`Request ${options.method} ${options.url} error`);
-    throw error
-})
+    throw error;
+});
 
 // Start the madness
 async function fetchGithubData() {
@@ -60,8 +60,7 @@ const app = express();
 app.get('/metrics', async (req, res) => {
     logger.info('/metrics hit');
     res.set('Content-Type', Prometheus.register.contentType);
-    response = Prometheus.register.metrics();
-    res.end(response);
+    res.end(Prometheus.register.metrics());
 });
 
 const server = app.listen(config.http.port, () => {
