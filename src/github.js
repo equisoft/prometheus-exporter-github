@@ -2,7 +2,7 @@ const logger = require('./logger');
 const metrics = require('./metrics');
 
 exports.processOrganisationRepositories = function(octokit, organisation) {
-    return new Promise ( async (resolve) => {
+    return new Promise( async (resolve) => {
         let repository_count = 0;
         let repository_private_count = 0;
         let repository_public_count = 0;
