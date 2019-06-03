@@ -40,10 +40,18 @@ octokit.hook.error('request', async (error, options) => {
 
 // Start the madness
 async function fetchGithubData() {
-    logger.debug('Triggering github data fetch');
-    await github.processOrganisationRepositories(octokit, config.organisation);
-    logger.debug('Github data fetch complete');
-    setTimeout(fetchGithubData, 1200000);
+    try {
+        logger.debug('Triggering github data fetch');
+        await github.processOrganisationRepositories(octokit, config.organisation);
+        logger.debug('Github data fetch complete');
+    }
+    catch (e) {
+        logger.error('Github data fetch crashed');
+        logger.error(e);
+    } finally {
+        logger.debug('Github data fetch will restart in 1200000ms');
+        setTimeout(fetchGithubData, 1200000);
+    }
 }
 fetchGithubData();
 
