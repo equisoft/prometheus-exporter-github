@@ -20,7 +20,7 @@
     "start": "node src/index.js"
   },
   "devDependencies": {
-    "@equisoft/eslint-config": "^0.0.4",
+    "@equisoft/eslint-config": "^0.0.5",
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.16.0"
   },

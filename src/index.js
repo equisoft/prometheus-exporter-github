@@ -44,8 +44,7 @@ async function fetchGithubData() {
         logger.debug('Triggering github data fetch');
         await github.processOrganisationRepositories(octokit, config.organisation);
         logger.debug('Github data fetch complete');
-    }
-    catch (e) {
+    } catch (e) {
         logger.error('Github data fetch crashed');
         logger.error(e);
     } finally {

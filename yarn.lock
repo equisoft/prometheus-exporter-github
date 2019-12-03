@@ -18,10 +18,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@equisoft/eslint-config@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@equisoft/eslint-config/-/eslint-config-0.0.4.tgz#b61c89cad2201f57bcea987d35df04b34bdb84d0"
-  integrity sha512-jUZsf6N6vXfY8oZjbCU8AYTCzbh0VMnEvuTK+jEsdHvoiEkEh6Q2c6AmFSUQS3sp08mIPfyJ2zl0OaFik2nr0g==
+"@equisoft/eslint-config@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@equisoft/eslint-config/-/eslint-config-0.0.5.tgz#2d5076e785b33c51a63a720dde6f87056045292e"
+  integrity sha512-XTHydNPx+qeF9qkiz7iRyJWDUlOrgc8FqrlXBkvrWQKM1UhF215/XF6q2x+saoYXcpsFUS9PmUCt+m5gTjJfMg==
 
 "@octokit/endpoint@^5.5.0":
   version "5.5.1"
