@@ -35,7 +35,7 @@ octokit.hook.after('request', async (response, options) => {
 });
 octokit.hook.error('request', async (error, options) => {
     logger.error(`Request ${options.method} ${options.url} error`);
-    throw error;
+    logger.error(`${error}`);
 });
 
 // Start the madness
