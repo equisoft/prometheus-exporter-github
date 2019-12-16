@@ -25,6 +25,7 @@
     "eslint-plugin-import": "^2.16.0"
   },
   "dependencies": {
+    "@octokit/plugin-retry": "^2.2.0",
     "@octokit/plugin-throttling": "^2.4.0",
     "@octokit/rest": "^16.23.2",
     "express": "^4.16.4",

@@ -1,7 +1,8 @@
 const express = require('express');
 const Prometheus = require('prom-client');
 const Octokit = require('@octokit/rest')
-    .plugin(require('@octokit/plugin-throttling'));
+    .plugin(require('@octokit/plugin-throttling'))
+    .plugin(require('@octokit/plugin-retry'));
 const config = require('./config');
 const logger = require('./logger');
 const github = require('./github');
@@ -36,6 +37,7 @@ octokit.hook.after('request', async (response, options) => {
 octokit.hook.error('request', async (error, options) => {
     logger.error(`Request ${options.method} ${options.url} error`);
     logger.error(`${error}`);
+    return;
 });
 
 // Start the madness
