@@ -4,12 +4,28 @@ import { GithubConfigs } from "./Config";
 import { GithubRepository } from "./GithubRepository";
 
 export class GithubExtractor {
+    teams: object;
+
     constructor(
         private readonly repository: GithubRepository,
         private readonly logger: Logger,
         private readonly metrics: Metrics,
         private readonly config: GithubConfigs,
     ) {
+        this.loadTeams();
+    }
+
+    private async loadTeams() {
+        const organisationTeams = await this.client.teams.list({org: this.config.organisation});
+        for (const team of organisationTeams.data) {
+            if(this.config.teams.includes(team.name)) {
+                this.teams[team.name] = [];
+                const teamsMembers = await this.client.teams.listMembersLegacy({team_id: team.id});
+                for(const member of teamsMembers.data){
+                    this.teams[team.name].push(member.login);
+                }
+            }
+        }
     }
 
     async processRepoPulls(repository): Promise<void> {

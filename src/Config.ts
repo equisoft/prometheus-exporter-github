@@ -8,6 +8,7 @@ export interface GithubClientConfigs {
 
 export interface GithubConfigs {
     organisation: string;
+    teams: string[];
 }
 
 export interface LogsConfigs {
@@ -34,6 +35,7 @@ export class EnvironmentConfigs implements Configs {
         Object.assign(this, {
             github: {
                 organisation: process.env.GITHUB_ORGANISATION,
+                teams: ['CRM']
             },
             githubClient: {
                 token: process.env.GITHUB_TOKEN || 'MISSING',

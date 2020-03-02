@@ -21,13 +21,13 @@ export class GithubClientFactory  {
             },
         });
 
-        this.octokitClient.hook.before('request', options => {
+        this.octokitClient.hook.before('request', async options => {
             logger.debug(`New request ${options.method} ${options.url}`);
         });
-        this.octokitClient.hook.after('request', (response, options) => {
+        this.octokitClient.hook.after('request', async (response, options) => {
             logger.debug(`Request ${options.method} ${options.url} finished`);
         });
-        this.octokitClient.hook.error('request', (error, options) => {
+        this.octokitClient.hook.error('request', async (error, options) => {
             logger.error(`Request ${options.method} ${options.url} error`);
             logger.error(`${error}`);
             return {};
