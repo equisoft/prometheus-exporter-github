@@ -2,7 +2,7 @@
 This project extract many github statistic for prometheus. It acheives it's goal by leverage the fabulous [octokit project](https://www.npmjs.com/package/@octokit/rest). It also 100% respect github rate limits by using this extremely useful [throttling-plugin project](https://www.npmjs.com/package/@octokit/plugin-throttling).
 
 ## Metrics
-All metrics can be found in `src/metrics.js` file.
+All metrics can be found in `src/metrics.ts` file.
 
 Some notable metrics are :
 - Total number of repositories, private and public per organisation.
@@ -35,7 +35,7 @@ docker-compose up
 
 ### Lint
 ```
-docker run -v $(pwd):/app --rm -it prometheus-exporter-github eslint
+docker run -v $(pwd):/app --rm -it prometheus-exporter-github tslint
 ```
 
 ## Environment Variables

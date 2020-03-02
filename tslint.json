@@ -1,0 +1,13 @@
+{
+  "extends": ["@equisoft/tslint-config"],
+  "rules": {
+    "file-name-casing": false,
+    "no-unsafe-any": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "test/**/*.ts",
+      "**/*.json"
+    ]
+  }
+}
