@@ -8,6 +8,6 @@ module.exports = {
         format: process.env.LOG_FORMAT || 'json',
     },
     http: {
-        port: process.env.HTTP_PORT || 80,
+        port: process.env.HTTP_PORT || 8080,
     },
 };

@@ -1,3 +1,6 @@
 {
-  "extends": ["@equisoft/eslint-config"]
+  "extends": ["@equisoft/eslint-config"],
+  "rules": {
+    "import/no-unresolved": false
+  }
 }
