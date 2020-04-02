@@ -1,17 +1,17 @@
 import { GithubClientConfigs } from './Config';
 import { Logger } from './Logger';
-
-const Octokit = require("@octokit/rest").plugin(require("@octokit/plugin-throttling")).plugin(require("@octokit/plugin-retry"));
+// tslint:disable-next-line:no-require-imports
+const octokit = require('@octokit/rest').plugin(require('@octokit/plugin-throttling')).plugin(require('@octokit/plugin-retry'));
 
 export class GithubClientFactory  {
     octokitClient;
-    constructor(private readonly config: GithubClientConfigs, logger :Logger) {
-        this.octokitClient = new Octokit({
+    constructor(private readonly config: GithubClientConfigs, logger: Logger) {
+        this.octokitClient = new octokit({
             auth: config.token,
             log: logger,
             throttle: {
                 onRateLimit: (retryAfter, options) => {
-                    logger.silly(`Request quota exhausted for ${options.method} ${options.url} - waiting ${retryAfter} seconds before going on with requests`);
+                    logger.warn(`Request quota exhausted for ${options.method} ${options.url} - We should not be here right now. Something's wrong`);
                     return true;
                 },
                 onAbuseLimit: (retryAfter, options) => {
@@ -22,14 +22,15 @@ export class GithubClientFactory  {
         });
 
         this.octokitClient.hook.before('request', async options => {
-            logger.debug(`New request ${options.method} ${options.url}`);
+            logger.silly(`New request ${options.method} ${options.url}`);
         });
         this.octokitClient.hook.after('request', async (response, options) => {
-            logger.debug(`Request ${options.method} ${options.url} finished`);
+            logger.silly(`Finished request ${options.method} ${options.url}`);
         });
+
         this.octokitClient.hook.error('request', async (error, options) => {
             logger.error(`Request ${options.method} ${options.url} error`);
-            logger.error(`${error}`);
+            logger.error(error);
             return {};
         });
     }

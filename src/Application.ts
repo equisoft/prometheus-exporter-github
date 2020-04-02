@@ -18,15 +18,19 @@ export class Application {
     }
 
     readonly startExtractionProcess = async () => {
+        const begin = new Date();
         try {
-            this.logger.debug('Triggering github data fetch');
-            await this.githubExtractor.processOrganisationRepositories();
-            this.logger.debug('Github data fetch complete');
+            this.logger.debug('Fetching global data from github');
+            await this.githubExtractor.fetchGlobalData();
+            // await this.githubExtractor.processOrganisationRepositories();
+            await this.githubExtractor.processTeamsData();
         } catch (e) {
-            this.logger.error('Github data fetch crashed');
+            this.logger.error('Github stats extraction crashed');
             this.logger.exception(e);
         } finally {
-            this.logger.debug(`Github data fetch will restart in ${this.timeBetweenExtraction}ms`);
+            const end = new Date();
+            this.logger.debug(`Github stats extraction took ${((end.getTime() - begin.getTime()) / 60000)} minutes to execute.`);
+            this.logger.debug(`Github stats extraction will restart in ${(this.timeBetweenExtraction / 60000)} minutes`);
             setTimeout(this.startExtractionProcess, this.timeBetweenExtraction);
         }
 

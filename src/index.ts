@@ -20,6 +20,6 @@ process.on('SIGTERM', () => {
     });
 });
 
-app.startExtractionProcess();
+app.startExtractionProcess().then(r => r);
 
 module.exports = app;

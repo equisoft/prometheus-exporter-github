@@ -22,3 +22,9 @@ services:
     - ./.docker-compose/prometheus/etc/prometheus:/etc/prometheus
     depends_on:
     - exporter-github
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+    - "3000:3000"
+    depends_on:
+      - prometheus

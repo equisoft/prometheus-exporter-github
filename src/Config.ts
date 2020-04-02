@@ -35,7 +35,7 @@ export class EnvironmentConfigs implements Configs {
         Object.assign(this, {
             github: {
                 organisation: process.env.GITHUB_ORGANISATION,
-                teams: ['CRM']
+                teams: ['CRM'],
             },
             githubClient: {
                 token: process.env.GITHUB_TOKEN || 'MISSING',

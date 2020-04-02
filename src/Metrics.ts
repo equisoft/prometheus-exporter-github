@@ -17,6 +17,12 @@ export class Metrics {
     private pullRequestsOpenWaitingApprovalGauge: Gauge;
     private pullRequestsMergedGauge: Gauge;
     private repoBranchesGauge: Gauge;
+    private repoPullRequestsOpenByReviewersGauge: Gauge;
+    private repoPullRequestsCloseByReviewersGauge: Gauge;
+    private authorPullRequestOpenGauge: Gauge;
+    private authorPullRequestCloseGauge: Gauge;
+    private pullRequestsCommentsGauge: Gauge;
+    private authorPullRequestGauge: Gauge;
 
     constructor() {
         this.repoGauge = new Gauge({
@@ -58,12 +64,12 @@ export class Metrics {
         this.repoPullRequestsOpenGauge = new Gauge({
             name: 'github_repo_pull_requests_open_count',
             help: 'Total number of open pull requests',
-            labelNames: ['owner', 'repo', 'reviewer'],
+            labelNames: ['owner', 'repo', 'created_at'],
         });
         this.repoPullRequestsCloseGauge = new Gauge({
             name: 'github_repo_pull_requests_close_count',
             help: 'Total number of closed pull requests',
-            labelNames: ['owner', 'repo'],
+            labelNames: ['owner', 'repo', 'merged_at'],
         });
         this.pullRequestsGauge = new Gauge({
             name: 'github_pull_requests_count',
@@ -100,6 +106,38 @@ export class Metrics {
             help: 'Total number of branches',
             labelNames: ['owner', 'repo'],
         });
+        this.repoPullRequestsOpenByReviewersGauge = new Gauge({
+            name: 'github_repo_pull_requests_open_by_reviewer_count',
+            help: 'Total number of open pull requests by reviewer',
+            labelNames: ['owner', 'repo', 'team', 'reviewer'],
+        });
+
+        this.repoPullRequestsCloseByReviewersGauge = new Gauge({
+            name: 'github_repo_pull_requests_close_by_reviewer_count',
+            help: 'Total number of close pull requests by reviewer',
+            labelNames: ['owner', 'repo', 'team', 'reviewer'],
+        });
+        this.authorPullRequestGauge = new Gauge({
+            name: 'github_user_pull_requests_count',
+            help: 'Total number of pull requests by author',
+            labelNames: ['repo', 'author', 'team'],
+        });
+        this.authorPullRequestOpenGauge = new Gauge({
+            name: 'github_user_pull_requests_open_count',
+            help: 'Total number of pull requests open by author',
+            labelNames: ['repo', 'author', 'team'],
+        });
+        this.authorPullRequestCloseGauge = new Gauge({
+            name: 'github_user_pull_requests_close_count',
+            help: 'Total number of pull requests close by author',
+            labelNames: ['repo', 'author', 'team'],
+        });
+        this.pullRequestsCommentsGauge = new Gauge({
+            name: 'github_comments_on_pull_requests_count',
+            help: 'Total number of comments on pull requests',
+            labelNames: ['repo', 'prAuthor', 'prAuthorTeam', 'prNumber', 'commentator'],
+        });
+
     }
 
     setRepoGauge(labels: labelValues, value: number) {
