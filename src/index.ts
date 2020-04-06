@@ -1,21 +1,20 @@
-import {Application} from "./Application";
-import { Logger } from './Logger';
 import { configs } from './Config';
-
+import { Injector } from './Injector';
+import { Logger } from './Logger';
 
 const logger = new Logger();
+const injector = new Injector(configs, logger);
+const app = injector.createApplication();
 
-const app = new Application(configs, logger);
-app.start();
 process.on('SIGINT', () => {
     logger.info('Received signal SIGINT');
-    app.close(() => {
+    app.stop(() => {
         process.exit(0);
     });
 });
 process.on('SIGTERM', () => {
     logger.info('Received signal SIGTERM');
-    app.close(() => {
+    app.stop(() => {
         process.exit(0);
     });
 });

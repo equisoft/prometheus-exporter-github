@@ -155,7 +155,6 @@ export class GithubExtractor {
                 repositoryCount += response.data.length;
                 for (let i = 0; i < response.data.length; i++) {
                     const repository = response.data[i];
-                    if (repository.name === 'kronos-crm') {
                         if (repository.private) {
                             repositoryPrivateCount += 1;
                         } else {
@@ -176,7 +175,7 @@ export class GithubExtractor {
 
                         promises.push(this.processRepoPulls(repository));
                         promises.push(this.processBranches(repository));
-                    }
+
                 }
             }
             this.logger.debug(`Processing ${repositoryCount} repositories`);
