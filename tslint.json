@@ -1,8 +1,7 @@
 {
   "extends": ["@equisoft/tslint-config"],
   "rules": {
-    "file-name-casing": false,
-    "no-unsafe-any": false
+    "file-name-casing": false
   },
   "linterOptions": {
     "exclude": [

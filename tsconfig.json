@@ -1,4 +1,5 @@
 {
+  "extends": "@equisoft/tslint-config/tsconfig.standards.json",
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",

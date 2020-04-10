@@ -22,7 +22,7 @@ export class Application {
         try {
             this.logger.debug('Fetching global data from github');
             await this.githubExtractor.fetchGlobalData();
-            // await this.githubExtractor.processOrganisationRepositories();
+            await this.githubExtractor.processOrganisationRepositories();
             await this.githubExtractor.processTeamsData();
         } catch (e) {
             this.logger.error('Github stats extraction crashed');

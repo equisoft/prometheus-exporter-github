@@ -25,11 +25,11 @@ export interface Configs {
 }
 
 export class EnvironmentConfigs implements Configs {
-    github: GithubConfigs;
-    githubClient: GithubClientConfigs;
-    server: ServerConfigs;
-    log: LogsConfigs;
-    timeBetweenExtractionInMS: number;
+    github!: GithubConfigs;
+    githubClient!: GithubClientConfigs;
+    server!: ServerConfigs;
+    log!: LogsConfigs;
+    timeBetweenExtractionInMS!: number;
 
     constructor() {
         Object.assign(this, {

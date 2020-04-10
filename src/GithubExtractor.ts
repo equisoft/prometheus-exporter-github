@@ -3,8 +3,21 @@ import { Metrics } from "./Metrics";
 import { GithubConfigs } from "./Config";
 import { GithubRepository } from "./GithubRepository";
 
+export interface ResponseHeader {
+    date: string;
+    'x-ratelimit-limit': string;
+    'x-ratelimit-remaining': string;
+    'x-ratelimit-reset': string;
+    'x-Octokit-request-id': string;
+    'x-Octokit-media-type': string;
+    link: string;
+    'last-modified': string;
+    etag: string;
+    status: string;
+}
+
 export class GithubExtractor {
-    teams: object;
+    users: string[];
 
     constructor(
         private readonly repository: GithubRepository,
@@ -12,6 +25,7 @@ export class GithubExtractor {
         private readonly metrics: Metrics,
         private readonly config: GithubConfigs,
     ) {
+        this.users = [];
     }
 
     async fetchGlobalData(): Promise<void> {
@@ -19,7 +33,7 @@ export class GithubExtractor {
     }
 
     private async loadUsersTeams(): Promise<void> {
-        this.users = [];
+
         const organisationTeams = await this.client.teams.list({ org: this.config.organisation });
         for (const team of organisationTeams.data) {
             if (this.config.teams.includes(team.name)) {
@@ -35,7 +49,7 @@ export class GithubExtractor {
         }
     }
 
-    async processRepoPulls(repository): Promise<void> {
+    async processRepoPulls(repository: Octokit.ReposListForOrgResponseItem): Promise<void> {
         let pullOpen = 0;
         let pullClose = 0;
         const pullOpenIds = [];
@@ -101,7 +115,7 @@ export class GithubExtractor {
         );
     }
 
-    async processBranches(repository): Promise<void> {
+    async processBranches(repository: Octokit.ReposListForOrgResponseItem): Promise<void> {
         this.metrics.setRepoBranchesGauge(
             { owner: repository.owner.login, repo: repository.name },
             await this.repository.getCountofBranchesInRepository(repository),
@@ -210,8 +224,10 @@ export class GithubExtractor {
                 for (const commentator in commentators) {
                     for (const teamIndex in teams) {
                         this.metrics.githubPullRequestsCommentsGauge.set(
-                            { repo: repoName, prAuthor: user,
-                                prNumber: pull.number, commentator: commentator },
+                            {
+                                repo: repoName, prAuthor: user,
+                                prNumber: pull.number, commentator: commentator
+                            },
                             commentators[commentator],
                         );
                     }
@@ -240,15 +256,16 @@ export class GithubExtractor {
         }
     }
 
-    private async ensureToRespectRateLimit(headers: object): Promise<void> {
+    private async ensureToRespectRateLimit(headers: ResponseHeader): Promise<void> {
         // tslint:disable-next-line:radix
-        if (parseInt(headers['x-ratelimit-remaining']) <= 1) {
+        if (parseInt(headers['x-ratelimit-remaining'], 10) <= 1) {
             const now = new Date().getTime();
-            // Need to add 1 seconde since sometime de reset time is a little bit off
-            const resetTime = new Date(headers['x-ratelimit-reset'] * 1000).getTime() + 1000;
+            const rateLimitReset = parseInt(headers['x-ratelimit-reset'], 10);
+            // Need to add 1 second since sometime de reset time is a little bit off
+            const resetTime = new Date(rateLimitReset * 1000).getTime() + 1000;
             const restartIn = resetTime - now;
             this.logger.info(`Request quota exhausted. Waiting ${restartIn / 1000} seconds`);
-            await  new Promise(resolve => setTimeout(resolve, restartIn));
+            await new Promise(resolve => setTimeout(resolve, restartIn));
         }
     }
 }
