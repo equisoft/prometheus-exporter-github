@@ -15,7 +15,6 @@ export interface LogsConfigs {
     format: string
 }
 
-
 export interface ConfigsInterface {
     github: GithubConfigs
     server: ServerConfigs
