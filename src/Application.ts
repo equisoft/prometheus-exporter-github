@@ -4,7 +4,12 @@ import { Logger } from './Logger';
 
 export class Application {
 
-    constructor(private readonly timeBetweenExtraction: number, private readonly logger: Logger, private readonly githubExtractor: GithubExtractor, private readonly expressServer: ExpressServer) {
+    constructor(
+        private readonly timeBetweenExtraction: number,
+        private readonly logger: Logger,
+        private readonly githubExtractor: GithubExtractor,
+        private readonly expressServer: ExpressServer,
+    ) {
         this.expressServer.start();
     }
 
@@ -28,5 +33,4 @@ export class Application {
     }
 
 }
-
 
