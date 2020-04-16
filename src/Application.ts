@@ -17,7 +17,7 @@ export class Application {
         this.expressServer.close(cb);
     }
 
-    startExtractionProcess = async () => {
+    readonly startExtractionProcess = async () => {
         try {
             this.logger.debug('Triggering github data fetch');
             await this.githubExtractor.processOrganisationRepositories();
@@ -33,4 +33,3 @@ export class Application {
     }
 
 }
-
