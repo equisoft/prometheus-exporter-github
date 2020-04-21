@@ -29,6 +29,7 @@ export class GithubExtractor {
     }
 
     async fetchGlobalData(): Promise<void> {
+        this.users = [];
         await this.loadUsersTeams();
     }
 
