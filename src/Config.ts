@@ -15,14 +15,14 @@ export interface LogsConfigs {
     format: string
 }
 
-export interface ConfigsInterface {
+export interface Configs {
     github: GithubConfigs
     server: ServerConfigs
     log: LogsConfigs
     timeBetweenExtractionInMS: number;
 }
 
-export class Configs implements ConfigsInterface {
+export class EnvironmentConfigs implements Configs {
     github: GithubConfigs;
     githubClient: GithubClientConfigs;
     server: ServerConfigs;
@@ -50,7 +50,7 @@ export class Configs implements ConfigsInterface {
     }
 }
 
-const configs = new Configs();
+const configs = new EnvironmentConfigs();
 export {
     configs,
 };
