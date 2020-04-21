@@ -3,22 +3,23 @@ export interface ServerConfigs {
 }
 
 export interface GithubClientConfigs {
-    token: string
+    token: string;
 }
 
 export interface GithubConfigs {
-    organisation: string
+    organisation: string;
 }
 
 export interface LogsConfigs {
-    level: string
-    format: string
+    level: string;
+    format: string;
 }
 
 export interface Configs {
-    github: GithubConfigs
-    server: ServerConfigs
-    log: LogsConfigs
+    github: GithubConfigs;
+    githubClient: GithubClientConfigs;
+    server: ServerConfigs;
+    log: LogsConfigs;
     timeBetweenExtractionInMS: number;
 }
 
@@ -35,22 +36,17 @@ export class EnvironmentConfigs implements Configs {
                 organisation: process.env.GITHUB_ORGANISATION,
             },
             githubClient: {
-                token: process.env.GITHUB_TOKEN || 'MISSING'
+                token: process.env.GITHUB_TOKEN || 'MISSING',
             },
             log: {
                 level: process.env.LOG_LEVEL || 'debug',
-                format: process.env.LOG_FORMAT || 'json'
+                format: process.env.LOG_FORMAT || 'json',
             },
             server: {
-                port: process.env.HTTP_PORT || 80
+                port: process.env.HTTP_PORT || 80,
             },
             // 20 min in MS
-            timeBetweenExtractionInMS: 1200000
+            timeBetweenExtractionInMS: 1200000,
         });
     }
 }
-
-const configs = new EnvironmentConfigs();
-export {
-    configs,
-};

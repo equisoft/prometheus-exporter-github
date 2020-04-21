@@ -1,5 +1,5 @@
-import {GithubClientConfigs} from './Config';
-import {Logger} from "./Logger";
+import { GithubClientConfigs } from './Config';
+import { Logger } from './Logger';
 /* const { throttlingPlugin } = require("@octokit/plugin-throttling");
 const { retryPlugin } = require("@octokit/plugin-retry");
 
