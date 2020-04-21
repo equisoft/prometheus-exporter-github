@@ -1,4 +1,5 @@
 import * as httpStatus from 'http-status';
+import { ErrorRequestHandler } from 'express';
 import { Logger } from './Logger';
 
 interface ErrorResponseBody {
@@ -6,10 +7,12 @@ interface ErrorResponseBody {
     error_description?: string;
     error_uri?: string;
 }
+export type RequestError = any;
 
-export function ErrorHandler(logger: Logger): (err: any, req: any, res: any, next: any) => any {
 
-    return (err: any, req: any, res: any, next: any) => {
+export function ErrorHandler(logger: Logger): ErrorRequestHandler {
+
+    return (err: RequestError, req, res, next) => {
         if (err) {
             const responseBody: ErrorResponseBody = {
                 error: 'server_error',
@@ -20,7 +23,7 @@ export function ErrorHandler(logger: Logger): (err: any, req: any, res: any, nex
             };
 
             if (err.status) {
-                res.statusCode = err.status;
+                res.statusCode = Number(err.status);
             }
             if (!res.statusCode || res.statusCode < 400) {
                 res.statusCode = httpStatus.INTERNAL_SERVER_ERROR;
@@ -41,8 +44,6 @@ export function ErrorHandler(logger: Logger): (err: any, req: any, res: any, nex
                 request: {
                     method: req.method,
                     url: req.url,
-                    // headers: JSON.stringify(req.headers),
-                    // body: JSON.stringify(req.body)
                 },
             };
 

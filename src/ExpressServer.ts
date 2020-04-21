@@ -1,11 +1,11 @@
-import * as express from 'express';
+import * as express from "express";
 import { Server as HttpServer } from 'http';
 import { register } from 'prom-client';
 import { ErrorHandler } from './ErrorHandler';
 import { Logger } from './Logger';
 
 export class ExpressServer {
-    private expressServer: express;
+    private expressServer: express.Express;
     private serverPort: number;
     private server: HttpServer;
 
