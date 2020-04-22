@@ -15,7 +15,6 @@ export class ExpressServer {
     ) {
         this.expressServer = express();
         this.initRoutes();
-        // Error handler
         this.expressServer.use(ErrorHandler(this.logger));
     }
 
