@@ -31,9 +31,9 @@ export class ExpressServer {
         });
     }
 
-    close(cb: () => any): void {
-        this.logger.info('Trying to close gracefully');
+    close(cb: () => void): void {
         if (this.server) {
+            this.logger.info('Trying to close gracefully');
             this.server.close(() => {
                 this.server = null;
                 this.logger.info('Server closed gracefully');

@@ -1,22 +1,22 @@
 import {Gauge} from "prom-client";
 
 export class Metrics {
-     githubRepoGauge: Gauge;
-     githubRepoPublicGauge: Gauge;
-     githubRepoPrivateGauge: Gauge;
-     githubRepoStarsGauge: Gauge;
-     githubRepoForksGauge: Gauge;
-     githubRepoOpenIssuesGauge: Gauge;
-     githubRepoPullRequestsGauge: Gauge;
-    githubRepoPullRequestsOpenGauge: Gauge;
-     githubRepoPullRequestsCloseGauge: Gauge;
-     githubPullRequestsGauge: Gauge;
-     githubPullRequestsOpenGauge: Gauge;
-     githubPullRequestsCloseGauge: Gauge;
-     githubPullRequestsOpenApprovedGauge: Gauge;
-     githubPullRequestsOpenWaitingApprovalGauge: Gauge;
-     githubPullRequestsMergedGauge: Gauge;
-     githubRepoBranchesGauge: Gauge;
+    readonly repoGauge: Gauge;
+    readonly repoPublicGauge: Gauge;
+    readonly repoPrivateGauge: Gauge;
+    readonly repoStarsGauge: Gauge;
+    readonly repoForksGauge: Gauge;
+    readonly repoOpenIssuesGauge: Gauge;
+    readonly repoPullRequestsGauge: Gauge;
+    readonly repoPullRequestsOpenGauge: Gauge;
+    readonly repoPullRequestsCloseGauge: Gauge;
+    readonly pullRequestsGauge: Gauge;
+    readonly pullRequestsOpenGauge: Gauge;
+    readonly pullRequestsCloseGauge: Gauge;
+    readonly pullRequestsOpenApprovedGauge: Gauge;
+    readonly pullRequestsOpenWaitingApprovalGauge: Gauge;
+    readonly pullRequestsMergedGauge: Gauge;
+    readonly repoBranchesGauge: Gauge;
 
     constructor() {
         this.githubRepoGauge = new Gauge({

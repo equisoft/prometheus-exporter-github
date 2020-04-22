@@ -1,8 +1,8 @@
 import { createLogger as createWinstonLogger, format, Logger as WinstonLogger, transports } from 'winston';
-const { configs } = require('./Config');
+import { configs } from './Config';
 
 export class Logger {
-    winstonLogger: WinstonLogger;
+    private readonly winstonLogger: WinstonLogger;
 
     constructor() {
         this.winstonLogger = createWinstonLogger({

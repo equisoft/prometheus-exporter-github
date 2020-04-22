@@ -5,19 +5,15 @@ import {GithubConfigs} from "./Config";
 import {Octokit} from "@octokit/rest";
 
 export class GithubExtractor {
-    client: Octokit;
-    logger: Logger;
-    metrics: Metrics;
-    config: GithubConfigs;
-
-    constructor(githubClient: Octokit, logger: Logger, metrics: Metrics, config: GithubConfigs) {
-        this.client = githubClient;
-        this.logger = logger;
-        this.metrics = metrics;
-        this.config = config;
+    constructor(
+        private readonly githubClient: Octokit,
+        private readonly logger: Logger,
+        private readonly metrics: Metrics,
+        private readonly config: GithubConfigs,
+    ) {
     }
 
-    processRepoPulls(repository): Promise<any> {
+    processRepoPulls(repository): Promise<void> {
         return new Promise(async resolve => {
             let pullOpen = 0;
             let pullClose = 0;
