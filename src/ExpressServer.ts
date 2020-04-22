@@ -9,8 +9,10 @@ export class ExpressServer {
     private serverPort: number;
     private server: HttpServer;
 
-    constructor(serverPort: number, private readonly logger: Logger) {
-        this.serverPort = serverPort;
+    constructor(
+        private readonly serverPort: number,
+        private readonly logger: Logger,
+    ) {
         this.expressServer = express();
         this.initRoutes();
         // Error handler
