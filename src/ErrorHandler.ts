@@ -18,8 +18,8 @@ export function ErrorHandler(logger: Logger): ErrorRequestHandler {
                 error: 'server_error',
             };
             const errorContext: any = {
-                message: err.message,
-                stack: err.stack,
+                "error_message": err.message,
+                "error_stack": err.stack,
             };
 
             if (err.status) {
@@ -38,19 +38,16 @@ export function ErrorHandler(logger: Logger): ErrorRequestHandler {
                 }
             }
 
-            const context = {
-                http_status_code: res.statusCode,
-                error: errorContext,
-                request: {
-                    method: req.method,
-                    url: req.url,
-                },
+            const globalContext = {
+                response_http_status_code: res.statusCode,
+                request_method: req.method,
+                request_url: req.url,
             };
 
             if (res.statusCode >= 500) {
-                logger.error('A Request failed', context);
+                logger.error('A Request failed', errorContext,globalContext);
             } else {
-                logger.info(errorContext.message, context);
+                logger.info(errorContext.message,errorContext, globalContext);
             }
 
             res.setHeader('Content-Type', 'application/json');

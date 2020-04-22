@@ -24,7 +24,7 @@ export class Application {
             this.logger.debug('Github data fetch complete');
         } catch (e) {
             this.logger.error('Github data fetch crashed');
-            this.logger.error(e);
+            this.logger.exception(e);
         } finally {
             this.logger.debug(`Github data fetch will restart in ${this.timeBetweenExtraction}ms`);
             setTimeout(this.startExtractionProcess, this.timeBetweenExtraction);

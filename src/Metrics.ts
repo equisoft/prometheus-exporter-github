@@ -19,83 +19,83 @@ export class Metrics {
     readonly repoBranchesGauge: Gauge;
 
     constructor() {
-        this.githubRepoGauge = new Gauge({
+        this.repoGauge = new Gauge({
             name: 'github_repo_count',
             help: 'Total number of repository',
             labelNames: ['owner'],
         });
 
-        this.githubRepoPublicGauge = new Gauge({
+        this.repoPublicGauge = new Gauge({
             name: 'github_repo_public_count',
             help: 'Total number of public repository',
             labelNames: ['owner'],
         });
-        this.githubRepoPrivateGauge = new Gauge({
+        this.repoPrivateGauge = new Gauge({
             name: 'github_repo_private_count',
             help: 'Total number of private repository',
             labelNames: ['owner'],
         });
-        this.githubRepoStarsGauge = new Gauge({
+        this.repoStarsGauge = new Gauge({
             name: 'github_repo_stars_count',
             help: 'Total number of repository stars',
             labelNames: ['owner', 'repo'],
         });
-        this.githubRepoForksGauge = new Gauge({
+        this.repoForksGauge = new Gauge({
             name: 'github_repo_forks_count',
             help: 'Total number of repository forks',
             labelNames: ['owner', 'repo'],
         });
-        this.githubRepoOpenIssuesGauge = new Gauge({
+        this.repoOpenIssuesGauge = new Gauge({
             name: 'github_repo_open_issues_count',
             help: 'Total number of repository open issues',
             labelNames: ['owner', 'repo'],
         });
-        this.githubRepoPullRequestsGauge = new Gauge({
+        this.repoPullRequestsGauge = new Gauge({
             name: 'github_repo_pull_requests_count',
             help: 'Total number of pull requests',
             labelNames: ['owner', 'repo'],
         });
-        this.githubRepoPullRequestsOpenGauge = new Gauge({
+        this.repoPullRequestsOpenGauge = new Gauge({
             name: 'github_repo_pull_requests_open_count',
             help: 'Total number of open pull requests',
             labelNames: ['owner', 'repo', 'reviewer'],
         });
-        this.githubRepoPullRequestsCloseGauge = new Gauge({
+        this.repoPullRequestsCloseGauge = new Gauge({
             name: 'github_repo_pull_requests_close_count',
             help: 'Total number of closed pull requests',
             labelNames: ['owner', 'repo'],
         });
-        this.githubPullRequestsGauge = new Gauge({
+        this.pullRequestsGauge = new Gauge({
             name: 'github_pull_requests_count',
             help: 'Total number of pull requests',
             labelNames: ['owner'],
         });
-        this.githubPullRequestsOpenGauge = new Gauge({
+        this.pullRequestsOpenGauge = new Gauge({
             name: 'github_pull_requests_open_count',
             help: 'Total number of open pull requests',
             labelNames: ['owner'],
         });
-        this.githubPullRequestsCloseGauge = new Gauge({
+        this.pullRequestsCloseGauge = new Gauge({
             name: 'github_pull_requests_close_count',
             help: 'Total number of closed pull requests',
             labelNames: ['owner'],
         });
-        this.githubPullRequestsOpenApprovedGauge = new Gauge({
+        this.pullRequestsOpenApprovedGauge = new Gauge({
             name: 'github_pull_requests_open_approved_count',
             help: 'Total number of open pull requests with an approved review',
             labelNames: ['owner'],
         });
-        this.githubPullRequestsOpenWaitingApprovalGauge = new Gauge({
+        this.pullRequestsOpenWaitingApprovalGauge = new Gauge({
             name: 'github_pull_requests_open_waiting_approval_count',
             help: 'Total number of open pull requests waiting to be approved',
             labelNames: ['owner'],
         });
-        this.githubPullRequestsMergedGauge = new Gauge({
+        this.pullRequestsMergedGauge = new Gauge({
             name: 'github_pull_requests_merged_count',
             help: 'Total number of merged pull requests',
             labelNames: ['owner'],
         });
-        this.githubRepoBranchesGauge = new Gauge({
+        this.repoBranchesGauge = new Gauge({
             name: 'github_repo_branch_count',
             help: 'Total number of branches',
             labelNames: ['owner', 'repo'],

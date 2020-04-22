@@ -6,7 +6,6 @@ import { Logger } from './Logger';
 
 export class ExpressServer {
     private expressServer: express.Express;
-    private serverPort: number;
     private server: HttpServer;
 
     constructor(
@@ -26,6 +25,7 @@ export class ExpressServer {
     }
 
     start(): void {
+
         this.server = this.expressServer.listen(this.serverPort, () => {
             this.logger.info(`App server listening on port ${this.serverPort}!`);
         });

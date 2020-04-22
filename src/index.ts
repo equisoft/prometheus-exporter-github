@@ -2,8 +2,9 @@ import { EnvironmentConfigs } from './Config';
 import { Injector } from './Injector';
 import { Logger } from './Logger';
 
-const logger = new Logger();
-const injector = new Injector(new EnvironmentConfigs(), logger);
+const configs = new EnvironmentConfigs();
+const logger = new Logger(configs.log);
+const injector = new Injector(configs, logger);
 const app = injector.createApplication();
 
 process.on('SIGINT', () => {
