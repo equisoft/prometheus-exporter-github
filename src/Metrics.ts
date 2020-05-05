@@ -102,8 +102,3 @@ export class Metrics {
         });
     }
 }
-
-const metrics = new Metrics();
-export {
-    metrics,
-};

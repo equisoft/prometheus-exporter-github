@@ -1,5 +1,4 @@
 import {Logger} from './Logger'
-import {GithubClientFactory} from "./GithubClientFactory";
 import {Metrics} from "./Metrics";
 import {GithubConfigs} from "./Config";
 import {Octokit} from "@octokit/rest";

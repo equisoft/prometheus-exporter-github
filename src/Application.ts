@@ -13,7 +13,7 @@ export class Application {
         this.expressServer.start();
     }
 
-    stop(cb: () => any): void {
+    stop(cb: () => void): void {
         this.expressServer.close(cb);
     }
 
