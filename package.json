@@ -21,7 +21,7 @@
     "eslint": "eslint src",
     "eslint:ci": "yarn eslint --format junit -o build/tests/eslint/junit.xml",
     "start": "ts-node src/index.ts",
-    "test:unit": "jest --recursive 'tests/unit/**/*.ts'"
+    "test:unit": "jest"
   },
   "devDependencies": {
     "@equisoft/eslint-config": "^0.0.5",
@@ -30,6 +30,7 @@
     "eslint-plugin-import": "^2.16.0",
     "jest": "^26.0.0",
     "ts-jest": "^25.4.0",
+    "ts-mockito": "^2.5.0",
     "ts-node": "^8.4.1",
     "typescript": "^3.5.2"
   },

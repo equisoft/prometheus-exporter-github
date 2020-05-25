@@ -26,15 +26,15 @@ export class GithubExtractor {
         }
         this.metrics.setRepoPullRequestsCloseGauge(
             { owner: repository.owner.login, repo: repository.name },
-            pullClose,
+            pullClose
         );
         this.metrics.setRepoPullRequestsOpenGauge(
             { owner: repository.owner.login, repo: repository.name },
-            pullOpen,
+            pullOpen
         );
         this.metrics.setRepoPullRequestsGauge(
             { owner: repository.owner.login, repo: repository.name },
-            pullClose + pullOpen,
+            pullClose + pullOpen
         );
     }
 
@@ -73,13 +73,12 @@ export class GithubExtractor {
     }
 
     async processOrganisationRepositories(): Promise<void> {
-        let repositoryCount = 0;
         let repositoryPrivateCount = 0;
         let repositoryPublicCount = 0;
 
         await this.processPulls();
 
-        for (const repository of await this.repository.getRepositoryListForOrg()) { // eslint-disable-line no-restricted-syntax
+        for (const repository of await this.repository.getRepositoryListForOrg()) {
             if (repository.private) {
                 repositoryPrivateCount += 1;
             } else {
@@ -102,10 +101,10 @@ export class GithubExtractor {
             await this.processBranches(repository);
 
         }
-        this.logger.debug(`Processing ${repositoryCount} repositories`);
+        this.logger.debug(`Processing ${repositoryPrivateCount + repositoryPublicCount} repositories`);
         this.metrics.setRepoGauge(
             { owner: this.config.organisation },
-            repositoryCount,
+            repositoryPrivateCount + repositoryPublicCount,
         );
         this.metrics.setRepoPrivateGauge(
             { owner: this.config.organisation },

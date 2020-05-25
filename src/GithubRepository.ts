@@ -85,6 +85,4 @@ export class GithubRepository {
 
         return result.data.total_count;
     }
-
-
 }
