@@ -1,22 +1,22 @@
-import {Gauge} from "prom-client";
+import { Gauge, labelValues } from 'prom-client';
 
 export class Metrics {
-    readonly repoGauge: Gauge;
-    readonly repoPublicGauge: Gauge;
-    readonly repoPrivateGauge: Gauge;
-    readonly repoStarsGauge: Gauge;
-    readonly repoForksGauge: Gauge;
-    readonly repoOpenIssuesGauge: Gauge;
-    readonly repoPullRequestsGauge: Gauge;
-    readonly repoPullRequestsOpenGauge: Gauge;
-    readonly repoPullRequestsCloseGauge: Gauge;
-    readonly pullRequestsGauge: Gauge;
-    readonly pullRequestsOpenGauge: Gauge;
-    readonly pullRequestsCloseGauge: Gauge;
-    readonly pullRequestsOpenApprovedGauge: Gauge;
-    readonly pullRequestsOpenWaitingApprovalGauge: Gauge;
-    readonly pullRequestsMergedGauge: Gauge;
-    readonly repoBranchesGauge: Gauge;
+    private repoGauge: Gauge;
+    private repoPublicGauge: Gauge;
+    private repoPrivateGauge: Gauge;
+    private repoStarsGauge: Gauge;
+    private repoForksGauge: Gauge;
+    private repoOpenIssuesGauge: Gauge;
+    private repoPullRequestsGauge: Gauge;
+    private repoPullRequestsOpenGauge: Gauge;
+    private repoPullRequestsCloseGauge: Gauge;
+    private pullRequestsGauge: Gauge;
+    private pullRequestsOpenGauge: Gauge;
+    private pullRequestsCloseGauge: Gauge;
+    private pullRequestsOpenApprovedGauge: Gauge;
+    private pullRequestsOpenWaitingApprovalGauge: Gauge;
+    private pullRequestsMergedGauge: Gauge;
+    private repoBranchesGauge: Gauge;
 
     constructor() {
         this.repoGauge = new Gauge({
@@ -100,5 +100,69 @@ export class Metrics {
             help: 'Total number of branches',
             labelNames: ['owner', 'repo'],
         });
+    }
+
+    setRepoGauge(labels: labelValues, value: number) {
+        this.repoGauge.set(labels, value);
+    }
+
+    setRepoPublicGauge(labels: labelValues, value: number) {
+        this.repoPublicGauge.set(labels, value);
+    }
+
+    setRepoPrivateGauge(labels: labelValues, value: number) {
+        this.repoPrivateGauge.set(labels, value);
+    }
+
+    setRepoStarsGauge(labels: labelValues, value: number) {
+        this.repoStarsGauge.set(labels, value);
+    }
+
+    setRepoForksGauge(labels: labelValues, value: number) {
+        this.repoForksGauge.set(labels, value);
+    }
+
+    setRepoOpenIssuesGauge(labels: labelValues, value: number) {
+        this.repoOpenIssuesGauge.set(labels, value);
+    }
+
+    setRepoPullRequestsGauge(labels: labelValues, value: number) {
+        this.repoPullRequestsGauge.set(labels, value);
+    }
+
+    setRepoPullRequestsOpenGauge(labels: labelValues, value: number) {
+        this.repoPullRequestsOpenGauge.set(labels, value);
+    }
+
+    setRepoPullRequestsCloseGauge(labels: labelValues, value: number) {
+        this.repoPullRequestsCloseGauge.set(labels, value);
+    }
+
+    setPullRequestsGauge(labels: labelValues, value: number) {
+        this.pullRequestsGauge.set(labels, value);
+    }
+
+    setPullRequestsOpenGauge(labels: labelValues, value: number) {
+        this.pullRequestsOpenGauge.set(labels, value);
+    }
+
+    setPullRequestsCloseGauge(labels: labelValues, value: number) {
+        this.pullRequestsCloseGauge.set(labels, value);
+    }
+
+    setPullRequestsOpenApprovedGauge(labels: labelValues, value: number) {
+        this.pullRequestsOpenApprovedGauge.set(labels, value);
+    }
+
+    setPullRequestsOpenWaitingApprovalGauge(labels: labelValues, value: number) {
+        this.pullRequestsOpenWaitingApprovalGauge.set(labels, value);
+    }
+
+    setPullRequestsMergedGauge(labels: labelValues, value: number) {
+        this.pullRequestsMergedGauge.set(labels, value);
+    }
+
+    setRepoBranchesGauge(labels: labelValues, value: number) {
+        this.repoBranchesGauge.set(labels, value);
     }
 }

@@ -24,49 +24,49 @@ export class GithubExtractor {
             }
 
         }
-        this.metrics.repoPullRequestsCloseGauge.set(
+        this.metrics.setRepoPullRequestsCloseGauge(
             { owner: repository.owner.login, repo: repository.name },
             pullClose,
         );
-        this.metrics.repoPullRequestsOpenGauge.set(
+        this.metrics.setRepoPullRequestsOpenGauge(
             { owner: repository.owner.login, repo: repository.name },
             pullOpen,
         );
-        this.metrics.repoPullRequestsGauge.set(
+        this.metrics.setRepoPullRequestsGauge(
             { owner: repository.owner.login, repo: repository.name },
             pullClose + pullOpen,
         );
     }
 
     async processPulls(): Promise<void> {
-        this.metrics.pullRequestsGauge.set(
+        this.metrics.setPullRequestsGauge(
             { owner: this.config.organisation },
             await this.repository.getPRCount()
         );
-        this.metrics.pullRequestsOpenGauge.set(
+        this.metrics.setPullRequestsOpenGauge(
             { owner: this.config.organisation },
             await this.repository.getPROpenCount()
         );
-        this.metrics.pullRequestsCloseGauge.set(
+        this.metrics.setPullRequestsCloseGauge(
             { owner: this.config.organisation },
             await this.repository.getPRCloseCount()
         );
-        this.metrics.pullRequestsMergedGauge.set(
+        this.metrics.setPullRequestsMergedGauge(
             { owner: this.config.organisation },
             await this.repository.getPRMergedCount()
         );
-        this.metrics.pullRequestsOpenApprovedGauge.set(
+        this.metrics.setPullRequestsOpenApprovedGauge(
             { owner: this.config.organisation },
             await this.repository.getPROpenAndApproved()
         );
-        this.metrics.pullRequestsOpenWaitingApprovalGauge.set(
+        this.metrics.setPullRequestsOpenWaitingApprovalGauge(
             { owner: this.config.organisation },
             await this.repository.getPROpenAndNotApproved()
         );
     }
 
     async processBranches(repository): Promise<void> {
-        this.metrics.repoBranchesGauge.set(
+        this.metrics.setRepoBranchesGauge(
             { owner: repository.owner.login, repo: repository.name },
             await this.repository.getCountofBranchesInRepository(repository),
         );
@@ -85,15 +85,15 @@ export class GithubExtractor {
             } else {
                 repositoryPublicCount += 1;
             }
-            this.metrics.repoStarsGauge.set(
+            this.metrics.setRepoStarsGauge(
                 { owner: repository.owner.login, repo: repository.name },
                 repository.stargazers_count,
             );
-            this.metrics.repoForksGauge.set(
+            this.metrics.setRepoForksGauge(
                 { owner: repository.owner.login, repo: repository.name },
                 repository.forks_count,
             );
-            this.metrics.repoOpenIssuesGauge.set(
+            this.metrics.setRepoOpenIssuesGauge(
                 { owner: repository.owner.login, repo: repository.name },
                 repository.open_issues_count,
             );
@@ -103,15 +103,15 @@ export class GithubExtractor {
 
         }
         this.logger.debug(`Processing ${repositoryCount} repositories`);
-        this.metrics.repoGauge.set(
+        this.metrics.setRepoGauge(
             { owner: this.config.organisation },
             repositoryCount,
         );
-        this.metrics.repoPrivateGauge.set(
+        this.metrics.setRepoPrivateGauge(
             { owner: this.config.organisation },
             repositoryPrivateCount,
         );
-        this.metrics.repoPublicGauge.set(
+        this.metrics.setRepoPublicGauge(
             { owner: this.config.organisation },
             repositoryPublicCount,
         );
