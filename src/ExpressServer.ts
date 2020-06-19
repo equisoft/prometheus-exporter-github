@@ -1,7 +1,7 @@
 import * as express from "express";
 import { Server as HttpServer } from 'http';
 import { register } from 'prom-client';
-import { ErrorHandler } from './ErrorHandler';
+import { createErrorHandler } from './ErrorHandler';
 import { Logger } from './Logger';
 
 export class ExpressServer {
@@ -14,7 +14,7 @@ export class ExpressServer {
     ) {
         this.expressServer = express();
         this.initRoutes();
-        this.expressServer.use(ErrorHandler(this.logger));
+        this.expressServer.use(createErrorHandler(this.logger));
     }
 
     private initRoutes(): void {

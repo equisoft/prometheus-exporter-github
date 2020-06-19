@@ -10,7 +10,7 @@ interface ErrorResponseBody {
 export type RequestError = any;
 
 
-export function ErrorHandler(logger: Logger): ErrorRequestHandler {
+export function createErrorHandler(logger: Logger): ErrorRequestHandler {
 
     return (err: RequestError, req, res, next) => {
         if (err) {
@@ -30,7 +30,7 @@ export function ErrorHandler(logger: Logger): ErrorRequestHandler {
             }
 
             if (res.statusCode === httpStatus.UNAUTHORIZED) {
-                if (err.realm && err.realm.type && err.realm.env && err.realm.charset) {
+                if (err?.realm?.type && err.realm.env && err.realm.charset) {
                     res.setHeader(
                         'WWW-Authenticate',
                         `${err.realm.type} realm="${err.realm.env}", charset="${err.realm.charset}"`,
@@ -45,9 +45,9 @@ export function ErrorHandler(logger: Logger): ErrorRequestHandler {
             };
 
             if (res.statusCode >= 500) {
-                logger.error('A Request failed', errorContext,globalContext);
+                logger.error('A Request failed', errorContext, globalContext);
             } else {
-                logger.info(errorContext.message,errorContext, globalContext);
+                logger.info(errorContext.message, errorContext, globalContext);
             }
 
             res.setHeader('Content-Type', 'application/json');

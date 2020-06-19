@@ -12,11 +12,16 @@ import { GithubExtractor } from '../../src/GithubExtractor';
 const config = { organisation: 'fakeOrganisation' };
 const fakeRepository = { owner: { login: 'a login' }, name: 'fakeRepository' };
 
-const mockedGithubRepository: GithubRepository = mock(GithubRepository);
-const mockedLogger: Logger = mock(Logger);
-const mockedMetrics: Metrics = mock(Metrics);
+let mockedGithubRepository: GithubRepository;
+let mockedLogger: Logger;
+let mockedMetrics: Metrics;
 
 describe('GithubExtractor', () => {
+    beforeEach(()=>{
+        mockedGithubRepository = mock(GithubRepository);
+        mockedLogger = mock(Logger);
+        mockedMetrics = mock(Metrics);
+    });
     it('process repository pulls', async () => {
 
         when(mockedGithubRepository.getPullsForRepository(fakeRepository))

@@ -1,9 +1,6 @@
 import { GithubClientConfigs } from './Config';
 import { Logger } from './Logger';
-/* const { throttlingPlugin } = require("@octokit/plugin-throttling");
-const { retryPlugin } = require("@octokit/plugin-retry");
 
- */
 const Octokit = require("@octokit/rest").plugin(require("@octokit/plugin-throttling")).plugin(require("@octokit/plugin-retry"));
 
 export class GithubClientFactory  {
