@@ -1,5 +1,5 @@
-import { instance, mock, verify, when, anyOfClass, spy, anyNumber, anything } from 'ts-mockito';
-import { ResolvePromiseMethodStub } from 'ts-mockito/lib/stub/ResolvePromiseMethodStub.js';
+import { anyNumber, anyOfClass, instance, mock, verify, when } from 'ts-mockito';
+import { GithubConfigs } from '../../src/Config.js';
 
 // Mocks
 import { GithubRepository } from '../../src/GithubRepository';
@@ -17,7 +17,7 @@ let mockedLogger: Logger;
 let mockedMetrics: Metrics;
 
 describe('GithubExtractor', () => {
-    beforeEach(()=>{
+    beforeEach(() => {
         mockedGithubRepository = mock(GithubRepository);
         mockedLogger = mock(Logger);
         mockedMetrics = mock(Metrics);
@@ -30,7 +30,7 @@ describe('GithubExtractor', () => {
         const githubExtractor = new GithubExtractor(instance(mockedGithubRepository),
             instance(mockedLogger),
             instance(mockedMetrics),
-            config);
+            <GithubConfigs>config);
         await githubExtractor.processRepoPulls(fakeRepository);
 
         verify(mockedMetrics.setRepoPullRequestsCloseGauge(anyOfClass(Object), 2)).once();
@@ -51,7 +51,7 @@ describe('GithubExtractor', () => {
         const githubExtractor = new GithubExtractor(instance(mockedGithubRepository),
             instance(mockedLogger),
             instance(mockedMetrics),
-            config);
+            <GithubConfigs>config);
         await githubExtractor.processPulls();
 
         verify(mockedMetrics.setPullRequestsGauge(anyOfClass(Object), 1)).once();
@@ -70,7 +70,7 @@ describe('GithubExtractor', () => {
         const githubExtractor = new GithubExtractor(instance(mockedGithubRepository),
             instance(mockedLogger),
             instance(mockedMetrics),
-            config);
+            <GithubConfigs>config);
         await githubExtractor.processBranches(fakeRepository);
 
         verify(mockedMetrics.setRepoBranchesGauge(anyOfClass(Object), branchCount)).once();
@@ -103,13 +103,13 @@ describe('GithubExtractor', () => {
             name: 'fakeRepository3',
         };
 
-        when(mockedGithubRepository.getRepositoryListForOrg()).thenResolve([ repo1, repo2, repo3]);
+        when(mockedGithubRepository.getRepositoryListForOrg()).thenResolve([ repo1, repo2, repo3 ]);
         when(mockedGithubRepository.getPullsForRepository(anyOfClass(Object))).thenResolve([]);
 
         const githubExtractor = new GithubExtractor(instance(mockedGithubRepository),
             instance(mockedLogger),
             instance(mockedMetrics),
-            config);
+            <GithubConfigs>config);
 
         await githubExtractor.processOrganisationRepositories();
 
