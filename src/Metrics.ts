@@ -140,67 +140,67 @@ export class Metrics {
 
     }
 
-    setRepoGauge(labels: labelValues, value: number) {
+    setRepoGauge(labels: labelValues, value: number): void {
         this.repoGauge.set(labels, value);
     }
 
-    setRepoPublicGauge(labels: labelValues, value: number) {
+    setRepoPublicGauge(labels: labelValues, value: number): void {
         this.repoPublicGauge.set(labels, value);
     }
 
-    setRepoPrivateGauge(labels: labelValues, value: number) {
+    setRepoPrivateGauge(labels: labelValues, value: number): void {
         this.repoPrivateGauge.set(labels, value);
     }
 
-    setRepoStarsGauge(labels: labelValues, value: number) {
+    setRepoStarsGauge(labels: labelValues, value: number): void {
         this.repoStarsGauge.set(labels, value);
     }
 
-    setRepoForksGauge(labels: labelValues, value: number) {
+    setRepoForksGauge(labels: labelValues, value: number): void {
         this.repoForksGauge.set(labels, value);
     }
 
-    setRepoOpenIssuesGauge(labels: labelValues, value: number) {
+    setRepoOpenIssuesGauge(labels: labelValues, value: number): void {
         this.repoOpenIssuesGauge.set(labels, value);
     }
 
-    setRepoPullRequestsGauge(labels: labelValues, value: number) {
+    setRepoPullRequestsGauge(labels: labelValues, value: number): void {
         this.repoPullRequestsGauge.set(labels, value);
     }
 
-    setRepoPullRequestsOpenGauge(labels: labelValues, value: number) {
+    setRepoPullRequestsOpenGauge(labels: labelValues, value: number): void {
         this.repoPullRequestsOpenGauge.set(labels, value);
     }
 
-    setRepoPullRequestsCloseGauge(labels: labelValues, value: number) {
+    setRepoPullRequestsCloseGauge(labels: labelValues, value: number): void {
         this.repoPullRequestsCloseGauge.set(labels, value);
     }
 
-    setPullRequestsGauge(labels: labelValues, value: number) {
+    setPullRequestsGauge(labels: labelValues, value: number): void {
         this.pullRequestsGauge.set(labels, value);
     }
 
-    setPullRequestsOpenGauge(labels: labelValues, value: number) {
+    setPullRequestsOpenGauge(labels: labelValues, value: number): void {
         this.pullRequestsOpenGauge.set(labels, value);
     }
 
-    setPullRequestsCloseGauge(labels: labelValues, value: number) {
+    setPullRequestsCloseGauge(labels: labelValues, value: number): void {
         this.pullRequestsCloseGauge.set(labels, value);
     }
 
-    setPullRequestsOpenApprovedGauge(labels: labelValues, value: number) {
+    setPullRequestsOpenApprovedGauge(labels: labelValues, value: number): void {
         this.pullRequestsOpenApprovedGauge.set(labels, value);
     }
 
-    setPullRequestsOpenWaitingApprovalGauge(labels: labelValues, value: number) {
+    setPullRequestsOpenWaitingApprovalGauge(labels: labelValues, value: number): void {
         this.pullRequestsOpenWaitingApprovalGauge.set(labels, value);
     }
 
-    setPullRequestsMergedGauge(labels: labelValues, value: number) {
+    setPullRequestsMergedGauge(labels: labelValues, value: number): void {
         this.pullRequestsMergedGauge.set(labels, value);
     }
 
-    setRepoBranchesGauge(labels: labelValues, value: number) {
+    setRepoBranchesGauge(labels: labelValues, value: number): void {
         this.repoBranchesGauge.set(labels, value);
     }
 }

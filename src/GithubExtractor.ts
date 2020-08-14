@@ -1,7 +1,8 @@
-import { Logger } from './Logger'
-import { Metrics } from "./Metrics";
-import { GithubConfigs } from "./Config";
-import { GithubRepository } from "./GithubRepository";
+import { Octokit } from '@octokit/rest';
+import { GithubConfigs } from './Config';
+import { GithubRepository } from './GithubRepository';
+import { Logger } from './Logger';
+import { Metrics } from './Metrics';
 
 export interface ResponseHeader {
     date: string;
@@ -60,59 +61,51 @@ export class GithubExtractor {
             if (pull.state === 'open') {
                 pullOpen += 1;
                 pullOpenIds.push(pull.id);
-                this.metrics.githubRepoPullRequestsOpenGauge.inc(
-                    { owner: repository.owner.login, repo: repository.name, created_at: pull.created_at },
-                    1,
-                );
             } else {
                 pullClose += 1;
                 pullCloseIds.push(pull.id);
-                this.metrics.githubRepoPullRequestsCloseGauge.inc(
-                    { owner: repository.owner.login, repo: repository.name, merged_at: pull.merged_at },
-                    1,
-                );
             }
             await this.ensureToRespectRateLimit(response.headers);
         }
         this.metrics.setRepoPullRequestsCloseGauge(
             { owner: repository.owner.login, repo: repository.name },
-            pullClose
+            pullClose,
         );
         this.metrics.setRepoPullRequestsOpenGauge(
             { owner: repository.owner.login, repo: repository.name },
-            pullOpen
+            pullOpen,
         );
         this.metrics.setRepoPullRequestsGauge(
             { owner: repository.owner.login, repo: repository.name },
-            pullClose + pullOpen
+            pullClose + pullOpen,
         );
     }
 
     async processPulls(): Promise<void> {
         this.metrics.setPullRequestsGauge(
             { owner: this.config.organisation },
-            await this.repository.getPRCount()
+            await this.repository.getPRCount(),
         );
         this.metrics.setPullRequestsOpenGauge(
             { owner: this.config.organisation },
-            await this.repository.getPROpenCount()
+            await this.repository.getPROpenCount(),
         );
         this.metrics.setPullRequestsCloseGauge(
             { owner: this.config.organisation },
-            await this.repository.getPRCloseCount()
+            await this.repository.getPRCloseCount(),
         );
         this.metrics.setPullRequestsMergedGauge(
             { owner: this.config.organisation },
-            await this.repository.getPRMergedCount()
+            await this.repository.getPRMergedCount(),
         );
         this.metrics.setPullRequestsOpenApprovedGauge(
             { owner: this.config.organisation },
-            await this.repository.getPROpenAndApproved()
+            await this.repository.getPROpenAndApproved(),
         );
         await this.ensureToRespectRateLimit(result.headers);
         this.metrics.setPullRequestsOpenWaitingApprovalGauge(
             { owner: this.config.organisation },
-            await this.repository.getPROpenAndNotApproved()
+            await this.repository.getPROpenAndNotApproved(),
         );
     }
 
@@ -123,12 +116,10 @@ export class GithubExtractor {
         );
     }
 
-    async processOrganisationRepositories(): Promise<any> {
-        return new Promise(async resolve => {
-            this.logger.debug('Triggering github organisation repositories extraction');
-            const start = new Date();
-            let repositoryPrivateCount = 0;
-            let repositoryPublicCount = 0;
+    async processOrganisationRepositories(): Promise<void> {
+        this.logger.debug('Triggering github organisation repositories extraction');
+        let repositoryPrivateCount = 0;
+        let repositoryPublicCount = 0;
 
         await this.processPulls();
 
@@ -180,7 +171,8 @@ export class GithubExtractor {
         }
 
         const end = new Date();
-        this.logger.debug(`Github teams data extraction completed in ${((end.getTime() - start.getTime()) / 60000).toFixed(3)} minutes`);
+        this.logger.debug(`Github teams data extraction completed in ${((end.getTime() - start.getTime())
+            / 60000).toFixed(3)} minutes`);
     }
 
     private async processUserData(user: string, teams: string[]): Promise<void> {
@@ -227,7 +219,7 @@ export class GithubExtractor {
                         this.metrics.githubPullRequestsCommentsGauge.set(
                             {
                                 repo: repoName, prAuthor: user,
-                                prNumber: pull.number, commentator: commentator
+                                prNumber: pull.number, commentator: commentator,
                             },
                             commentators[commentator],
                         );
