@@ -10,7 +10,7 @@ export class Logger {
             format: format.combine(
                 format.timestamp(),
                 format.errors({ stack: true }),
-                format[logconfig.format](),
+                format.json(),
             ),
             transports: [
                 new transports.Console({ level: logconfig.level }),

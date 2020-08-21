@@ -1,3 +1,4 @@
+import { Octokit } from '@octokit/rest';
 import { anyNumber, anyOfClass, instance, mock, verify, when } from 'ts-mockito';
 import { GithubConfigs } from '../../src/Config.js';
 
@@ -8,6 +9,7 @@ import { Metrics } from '../../src/Metrics';
 
 // Subject
 import { GithubExtractor } from '../../src/GithubExtractor';
+import ReposListForOrgResponseItem = Octokit.ReposListForOrgResponseItem;
 
 const config = { organisation: 'fakeOrganisation' };
 const fakeRepository = { owner: { login: 'a login' }, name: 'fakeRepository' };
@@ -24,14 +26,14 @@ describe('GithubExtractor', () => {
     });
     it('process repository pulls', async () => {
 
-        when(mockedGithubRepository.getPullsForRepository(fakeRepository))
+        when(mockedGithubRepository.getPullsForRepository(<ReposListForOrgResponseItem>fakeRepository))
             .thenResolve([ { state: 'close' }, { state: 'close' }, { state: 'open' } ]);
 
         const githubExtractor = new GithubExtractor(instance(mockedGithubRepository),
             instance(mockedLogger),
             instance(mockedMetrics),
             <GithubConfigs>config);
-        await githubExtractor.processRepoPulls(fakeRepository);
+        await githubExtractor.processRepoPulls(<ReposListForOrgResponseItem>fakeRepository);
 
         verify(mockedMetrics.setRepoPullRequestsCloseGauge(anyOfClass(Object), 2)).once();
         verify(mockedMetrics.setRepoPullRequestsOpenGauge(anyOfClass(Object), 1)).once();
@@ -65,13 +67,14 @@ describe('GithubExtractor', () => {
 
     it('process branches', async () => {
         const branchCount = 352;
-        when(mockedGithubRepository.getCountofBranchesInRepository(fakeRepository)).thenResolve(branchCount);
+        when(mockedGithubRepository.getCountofBranchesInRepository(<ReposListForOrgResponseItem>fakeRepository))
+            .thenResolve(branchCount);
 
         const githubExtractor = new GithubExtractor(instance(mockedGithubRepository),
             instance(mockedLogger),
             instance(mockedMetrics),
             <GithubConfigs>config);
-        await githubExtractor.processBranches(fakeRepository);
+        await githubExtractor.processBranches(<ReposListForOrgResponseItem>fakeRepository);
 
         verify(mockedMetrics.setRepoBranchesGauge(anyOfClass(Object), branchCount)).once();
 

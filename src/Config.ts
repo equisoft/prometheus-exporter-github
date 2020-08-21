@@ -13,7 +13,6 @@ export interface GithubConfigs {
 
 export interface LogsConfigs {
     level: string;
-    format: string;
 }
 
 export interface Configs {
@@ -42,7 +41,6 @@ export class EnvironmentConfigs implements Configs {
             },
             log: {
                 level: process.env.LOG_LEVEL || 'debug',
-                format: process.env.LOG_FORMAT || 'json',
             },
             server: {
                 port: process.env.HTTP_PORT || 80,

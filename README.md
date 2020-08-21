@@ -43,10 +43,6 @@ docker run -v $(pwd):/app --rm -it prometheus-exporter-github tslint
 Value in `silly`, `debug`, `verbose`, `info`, `warn`, `error`.
 Default `info`.
 See [winston](https://www.npmjs.com/package/winston).
-#### LOG_FORMAT
-Value in `json`, `prettyPrint`. Some format described in winston documentation may not be working so stick with `prettyPrint` or `json` unless you know what you are doing.
-Default `json`.
-See [log format](https://github.com/winstonjs/logform#formats) for more possible format.
 #### NODE_ENV
 Value in `development`, `production`.
 Default `production`.
