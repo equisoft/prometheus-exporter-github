@@ -135,7 +135,7 @@ export class Metrics {
         this.pullRequestsCommentsGauge = new Gauge({
             name: 'github_comments_on_pull_requests_count',
             help: 'Total number of comments on pull requests',
-            labelNames: ['repo', 'prAuthor', 'prAuthorTeam', 'prNumber', 'commentator'],
+            labelNames: ['repo', 'prAuthor', 'prAuthorTeam', 'prNumber', 'commentator', 'commentatorTeam'],
         });
 
     }
@@ -202,5 +202,29 @@ export class Metrics {
 
     setRepoBranchesGauge(labels: labelValues, value: number): void {
         this.repoBranchesGauge.set(labels, value);
+    }
+
+    setRepoPullRequestsOpenByReviewersGauge(labels: labelValues, value: number): void {
+        this.repoPullRequestsOpenByReviewersGauge.set(labels, value);
+    }
+
+    setRepoPullRequestsCloseByReviewersGauge(labels: labelValues, value: number): void {
+        this.repoPullRequestsCloseByReviewersGauge.set(labels, value);
+    }
+
+    setAuthorPullRequestCloseGauge(labels: labelValues, value: number): void {
+        this.authorPullRequestCloseGauge.set(labels, value);
+    }
+
+    setAuthorPullRequestOpenGauge(labels: labelValues, value: number): void {
+        this.authorPullRequestOpenGauge.set(labels, value);
+    }
+
+    setAuthorPullRequestGauge(labels: labelValues, value: number): void {
+        this.authorPullRequestGauge.set(labels, value);
+    }
+
+    setPullRequestsCommentsGauge(labels: labelValues, value: number): void {
+        this.pullRequestsCommentsGauge.set(labels, value);
     }
 }

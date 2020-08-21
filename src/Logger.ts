@@ -8,9 +8,9 @@ export class Logger {
         this.winstonLogger = createWinstonLogger({
             level: logconfig.level,
             format: format.combine(
-              format.timestamp(),
-              format.errors({ stack: true }),
-              format[logconfig.format](),
+                format.timestamp(),
+                format.errors({ stack: true }),
+                format[logconfig.format](),
             ),
             transports: [
                 new transports.Console({ level: logconfig.level }),

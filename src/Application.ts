@@ -29,11 +29,13 @@ export class Application {
             this.logger.exception(e);
         } finally {
             const end = new Date();
-            this.logger.debug(`Github stats extraction took ${((end.getTime() - begin.getTime()) / 60000)} minutes to execute.`);
-            this.logger.debug(`Github stats extraction will restart in ${(this.timeBetweenExtraction / 60000)} minutes`);
+            this.logger.debug(`Github stats extraction took ${((end.getTime() - begin.getTime())
+                / 60000)} minutes to execute.`);
+            this.logger.debug(`Github stats extraction will restart in ${(this.timeBetweenExtraction
+                / 60000)} minutes`);
             setTimeout(this.startExtractionProcess, this.timeBetweenExtraction);
         }
 
-    }
+    };
 
 }

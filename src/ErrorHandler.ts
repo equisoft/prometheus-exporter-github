@@ -1,5 +1,5 @@
-import * as httpStatus from 'http-status';
 import { ErrorRequestHandler } from 'express';
+import * as httpStatus from 'http-status';
 import { Logger } from './Logger';
 
 interface ErrorResponseBody {
@@ -9,7 +9,6 @@ interface ErrorResponseBody {
 }
 export type RequestError = any;
 
-
 export function createErrorHandler(logger: Logger): ErrorRequestHandler {
 
     return (err: RequestError, req, res, next) => {
@@ -18,8 +17,8 @@ export function createErrorHandler(logger: Logger): ErrorRequestHandler {
                 error: 'server_error',
             };
             const errorContext: any = {
-                "error_message": err.message,
-                "error_stack": err.stack,
+                error_message: err.message,
+                error_stack: err.stack,
             };
 
             if (err.status) {

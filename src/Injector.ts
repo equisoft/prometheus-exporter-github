@@ -3,6 +3,7 @@ import { Configs } from './Config';
 import { ExpressServer } from './ExpressServer';
 import { GithubClientFactory } from './GithubClientFactory';
 import { GithubExtractor } from './GithubExtractor';
+import { GithubRepository } from './GithubRepository.js';
 import { Logger } from './Logger';
 import { Metrics } from './Metrics';
 
@@ -12,12 +13,18 @@ export class Injector {
     }
 
     createApplication(): Application {
-        return new Application(this.configs.timeBetweenExtractionInMS, this.logger, this.createGithubExtractor(), this.createExpressServer());
+        return new Application(this.configs.timeBetweenExtractionInMS,
+            this.logger,
+            this.createGithubExtractor(),
+            this.createExpressServer());
     }
 
     private createGithubExtractor(): GithubExtractor {
-        const githubClient = new GithubClientFactory(this.configs.githubClient, this.logger);
-        return new GithubExtractor(githubClient.getOctokitClient(), this.logger, new Metrics(), this.configs.github);
+        const githubClientFactory = new GithubClientFactory(this.configs.githubClient, this.logger);
+        const githubRepository = new GithubRepository(githubClientFactory.getOctokitClient(),
+            this.configs.github.organisation,
+            this.logger);
+        return new GithubExtractor(githubRepository, this.logger, new Metrics(), this.configs.github);
     }
 
     private createExpressServer(): ExpressServer {

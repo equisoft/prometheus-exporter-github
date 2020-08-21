@@ -1,4 +1,4 @@
-import * as express from "express";
+import * as express from 'express';
 import { Server as HttpServer } from 'http';
 import { register } from 'prom-client';
 import { createErrorHandler } from './ErrorHandler';
@@ -6,7 +6,7 @@ import { Logger } from './Logger';
 
 export class ExpressServer {
     private expressServer: express.Express;
-    private server: HttpServer;
+    private server: HttpServer | undefined;
 
     constructor(
         private readonly serverPort: number,
@@ -35,7 +35,7 @@ export class ExpressServer {
         if (this.server) {
             this.logger.info('Trying to close gracefully');
             this.server.close(() => {
-                this.server = null;
+                this.server = undefined;
                 this.logger.info('Server closed gracefully');
                 cb();
             });
