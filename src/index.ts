@@ -1,6 +1,6 @@
-import { EnvironmentConfigs } from './Config';
-import { Injector } from './Injector';
-import { Logger } from './Logger';
+import {EnvironmentConfigs} from './Config';
+import {Injector} from './Injector';
+import {Logger} from './Logger';
 
 const configs = new EnvironmentConfigs();
 const logger = new Logger(configs.log);

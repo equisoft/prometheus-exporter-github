@@ -1,12 +1,13 @@
 import * as httpStatus from 'http-status';
-import { ErrorRequestHandler } from 'express';
-import { Logger } from './Logger';
+import {ErrorRequestHandler} from 'express';
+import {Logger} from './Logger';
 
 interface ErrorResponseBody {
     error: string;
     error_description?: string;
     error_uri?: string;
 }
+
 export type RequestError = any;
 
 

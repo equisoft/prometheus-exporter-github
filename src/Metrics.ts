@@ -1,4 +1,4 @@
-import { Gauge, labelValues } from 'prom-client';
+import {Gauge, labelValues} from 'prom-client';
 
 export class Metrics {
     private repoGauge: Gauge;

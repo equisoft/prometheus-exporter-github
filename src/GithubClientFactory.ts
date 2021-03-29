@@ -1,12 +1,16 @@
-import { GithubClientConfigs } from './Config';
-import { Logger } from './Logger';
+import {GithubClientConfigs} from './Config';
+import {Logger} from './Logger';
+import {retry} from "@octokit/plugin-retry";
+import {throttling} from "@octokit/plugin-throttling";
+import {Octokit} from "@octokit/rest";
 
-const Octokit = require("@octokit/rest").plugin(require("@octokit/plugin-throttling")).plugin(require("@octokit/plugin-retry"));
+const MyOctokit = Octokit.plugin(retry, throttling);
 
-export class GithubClientFactory  {
-    octokitClient;
-    constructor(private readonly config: GithubClientConfigs, logger :Logger) {
-        this.octokitClient = new Octokit({
+export class GithubClientFactory {
+    octokitClient: Octokit;
+
+    constructor(private readonly config: GithubClientConfigs, logger: Logger) {
+        this.octokitClient = new MyOctokit({
             auth: config.token,
             log: logger,
             throttle: {

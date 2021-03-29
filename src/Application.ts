@@ -1,6 +1,6 @@
-import { ExpressServer } from './ExpressServer';
-import { GithubExtractor } from './GithubExtractor';
-import { Logger } from './Logger';
+import {ExpressServer} from './ExpressServer';
+import {GithubExtractor} from './GithubExtractor';
+import {Logger} from './Logger';
 
 export class Application {
 

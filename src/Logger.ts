@@ -1,5 +1,5 @@
-import { createLogger as createWinstonLogger, format, Logger as WinstonLogger, transports } from 'winston';
-import { LogsConfigs } from './Config';
+import {createLogger as createWinstonLogger, format, Logger as WinstonLogger, transports} from 'winston';
+import {LogsConfigs} from './Config';
 
 export class Logger {
     private readonly winstonLogger: WinstonLogger;
@@ -8,12 +8,12 @@ export class Logger {
         this.winstonLogger = createWinstonLogger({
             level: logconfig.level,
             format: format.combine(
-              format.timestamp(),
-              format.errors({ stack: true }),
-              format[logconfig.format](),
+                format.timestamp(),
+                format.errors({stack: true}),
+                format[logconfig.format](),
             ),
             transports: [
-                new transports.Console({ level: logconfig.level }),
+                new transports.Console({level: logconfig.level}),
             ],
         });
     }
@@ -39,6 +39,6 @@ export class Logger {
     }
 
     exception(error: Error, message: string = '', ...meta: any[]): void {
-        this.winstonLogger.error(message || error.message, { ...meta, error });
+        this.winstonLogger.error(message || error.message, {...meta, error});
     }
 }

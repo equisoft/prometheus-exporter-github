@@ -1,8 +1,8 @@
 import * as express from "express";
-import { Server as HttpServer } from 'http';
-import { register } from 'prom-client';
-import { createErrorHandler } from './ErrorHandler';
-import { Logger } from './Logger';
+import {Server as HttpServer} from 'http';
+import {register} from 'prom-client';
+import {createErrorHandler} from './ErrorHandler';
+import {Logger} from './Logger';
 
 export class ExpressServer {
     private expressServer: express.Express;

@@ -1,7 +1,7 @@
-import { Logger } from './Logger'
-import { Metrics } from "./Metrics";
-import { GithubConfigs } from "./Config";
-import { GithubRepository } from "./GithubRepository";
+import {Logger} from './Logger'
+import {Metrics} from "./Metrics";
+import {GithubConfigs} from "./Config";
+import {GithubRepository} from "./GithubRepository";
 
 export class GithubExtractor {
     constructor(
@@ -25,49 +25,49 @@ export class GithubExtractor {
 
         }
         this.metrics.setRepoPullRequestsCloseGauge(
-            { owner: repository.owner.login, repo: repository.name },
+            {owner: repository.owner.login, repo: repository.name},
             pullClose
         );
         this.metrics.setRepoPullRequestsOpenGauge(
-            { owner: repository.owner.login, repo: repository.name },
+            {owner: repository.owner.login, repo: repository.name},
             pullOpen
         );
         this.metrics.setRepoPullRequestsGauge(
-            { owner: repository.owner.login, repo: repository.name },
+            {owner: repository.owner.login, repo: repository.name},
             pullClose + pullOpen
         );
     }
 
     async processPulls(): Promise<void> {
         this.metrics.setPullRequestsGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             await this.repository.getPRCount()
         );
         this.metrics.setPullRequestsOpenGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             await this.repository.getPROpenCount()
         );
         this.metrics.setPullRequestsCloseGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             await this.repository.getPRCloseCount()
         );
         this.metrics.setPullRequestsMergedGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             await this.repository.getPRMergedCount()
         );
         this.metrics.setPullRequestsOpenApprovedGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             await this.repository.getPROpenAndApproved()
         );
         this.metrics.setPullRequestsOpenWaitingApprovalGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             await this.repository.getPROpenAndNotApproved()
         );
     }
 
     async processBranches(repository): Promise<void> {
         this.metrics.setRepoBranchesGauge(
-            { owner: repository.owner.login, repo: repository.name },
+            {owner: repository.owner.login, repo: repository.name},
             await this.repository.getCountofBranchesInRepository(repository),
         );
     }
@@ -85,15 +85,15 @@ export class GithubExtractor {
                 repositoryPublicCount += 1;
             }
             this.metrics.setRepoStarsGauge(
-                { owner: repository.owner.login, repo: repository.name },
+                {owner: repository.owner.login, repo: repository.name},
                 repository.stargazers_count,
             );
             this.metrics.setRepoForksGauge(
-                { owner: repository.owner.login, repo: repository.name },
+                {owner: repository.owner.login, repo: repository.name},
                 repository.forks_count,
             );
             this.metrics.setRepoOpenIssuesGauge(
-                { owner: repository.owner.login, repo: repository.name },
+                {owner: repository.owner.login, repo: repository.name},
                 repository.open_issues_count,
             );
 
@@ -103,15 +103,15 @@ export class GithubExtractor {
         }
         this.logger.debug(`Processing ${repositoryPrivateCount + repositoryPublicCount} repositories`);
         this.metrics.setRepoGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             repositoryPrivateCount + repositoryPublicCount,
         );
         this.metrics.setRepoPrivateGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             repositoryPrivateCount,
         );
         this.metrics.setRepoPublicGauge(
-            { owner: this.config.organisation },
+            {owner: this.config.organisation},
             repositoryPublicCount,
         );
     }
