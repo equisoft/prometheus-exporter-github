@@ -1,11 +1,11 @@
-FROM node:12 AS builder
+FROM node:14 AS builder
 WORKDIR /app
 
 COPY . .
 
 RUN yarn install --dev && yarn build
 
-FROM node:12
+FROM node:14-slim
 WORKDIR /app
 
 ENV LOG_LEVEL="info" \
