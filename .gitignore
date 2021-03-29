@@ -62,3 +62,6 @@ typings/
 
 # jetbrains project file
 .idea
+
+# tsc build
+dist/
