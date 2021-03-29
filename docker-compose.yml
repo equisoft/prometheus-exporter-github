@@ -2,6 +2,9 @@ version: '3.6'
 services:
   exporter-github:
     build: .
+    cap_drop:
+      - ALL
+    read_only: true
     environment:
       - NODE_ENV
       - HTTP_PORT
@@ -10,9 +13,11 @@ services:
       - GITHUB_TOKEN
       - GITHUB_ORGANISATION
     ports:
-    - "80:80"
+    - "8080:8080"
+    command: ["yarn", "start"]
     volumes:
-    - .:/app
+      - .:/app
+      - /tmp
     restart: always
   prometheus:
     image: prom/prometheus:latest
