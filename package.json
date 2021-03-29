@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@equisoft/eslint-config": "^0.0.5",
-    "@types/jest": "^25.2.1",
+    "@types/jest": "^26.0.22",
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.16.0",
     "jest": "^26.0.0",
@@ -41,7 +41,7 @@
     "@types/express": "^4.17.6",
     "express": "^4.16.4",
     "global": "^4.4.0",
-    "http-status": "latest",
+    "http-status": "^1.5.0",
     "prom-client": "^11.3.0",
     "winston": "^3.2.1"
   },
