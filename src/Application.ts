@@ -20,7 +20,7 @@ export class Application {
     readonly startExtractionProcess = async () => {
         try {
             this.logger.debug('Triggering github data fetch');
-            await this.githubExtractor.processOrganisationRepositories();
+            await this.githubExtractor.processOrganizationRepositories();
             this.logger.debug('Github data fetch complete');
         } catch (e) {
             this.logger.error('Github data fetch crashed');

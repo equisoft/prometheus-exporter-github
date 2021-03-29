@@ -9,7 +9,7 @@ import { Metrics } from '../../src/Metrics';
 // Subject
 import { GithubExtractor } from '../../src/GithubExtractor';
 
-const config = { organisation: 'fakeOrganisation' };
+const config = { organization: 'fakeOrganization' };
 const fakeRepository = { owner: { login: 'a login' }, name: 'fakeRepository' };
 
 let mockedGithubRepository: GithubRepository;
@@ -77,7 +77,7 @@ describe('GithubExtractor', () => {
 
     });
 
-    it('process organisation repositories', async () => {
+    it('process organization repositories', async () => {
         const repo1 = {
             private: true,
             stargazers_count: 3,
@@ -111,7 +111,7 @@ describe('GithubExtractor', () => {
             instance(mockedMetrics),
             config);
 
-        await githubExtractor.processOrganisationRepositories();
+        await githubExtractor.processOrganizationRepositories();
 
         verify(mockedMetrics.setRepoStarsGauge(anyOfClass(Object), 3)).once();
         verify(mockedMetrics.setRepoStarsGauge(anyOfClass(Object), 4)).once();

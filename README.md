@@ -5,31 +5,31 @@ This project extract many github statistic for prometheus. It acheives it's goal
 All metrics can be found in `src/metrics.ts` file.
 
 Some notable metrics are :
-- Total number of repositories, private and public per organisation.
+- Total number of repositories, private and public per organization.
 - Total number of stars and issues per repository.
 - Total number of branch per repository.
-- Total number of pull request, open, merged and closed per repo and per organisation.
+- Total number of pull request, open, merged and closed per repo and per organization.
 - Total number of pull request that are waiting to be approved, are approved but not merged
 
 ## Development
 ### Build && Run
 ```
 docker build . -t prometheus-exporter-github
-docker run -e GITHUB_ORGANISATION=org -e LOG_LEVEL=silly -p 80:80 --rm -it prometheus-exporter-github
+docker run -e GITHUB_ORGANIZATION=org -e LOG_LEVEL=silly -p 8080:8080 --rm -it prometheus-exporter-github
 ```
 Server is accessible on http://localhost/metrics
 
 For development, add sources
 ```
 cd prometheus-exporter-github
-docker run -e GITHUB_TOKEN=your-github-personnal-token -e GITHUB_ORGANISATION=org -e LOG_LEVEL=silly -v $(pwd):/app -p 80:80 --rm -it prometheus-exporter-github
+docker run -e GITHUB_TOKEN=your-github-personnal-token -e GITHUB_ORGANIZATION=org -e LOG_LEVEL=silly -v $(pwd):/app -p 8080:8080 --rm -it prometheus-exporter-github
 ```
 
 ### Integration with Prometheus
 A docker-compose file provide integration with prometheus server.
 ```
 export GITHUB_TOKEN=your-github-personnal-token
-export GITHUB_ORGANISATION=org
+export GITHUB_ORGANIZATION=org
 docker-compose up
 ```
 
@@ -53,8 +53,8 @@ Default `production`.
 #### GITHUB_TOKEN
 Personal access token, OAuth access token, GitHub app bearer token or GitHub app installation token. If you need access to private repositories add the whole `repo` scope.
 See [get a Github token](https://github.com/settings/developers).
-#### GITHUB_ORGANISATION
-Organisation name.
+#### GITHUB_ORGANIZATION
+Organization name.
 #### HTTP_PORT
 Port number the http server will listen to.
 Default `8080`.

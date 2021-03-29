@@ -3,7 +3,7 @@ import {Octokit} from "@octokit/rest";
 export class GithubRepository {
     constructor(
         private readonly githubClient: Octokit,
-        private readonly organisation: string
+        private readonly organization: string
     ) {
     }
 
@@ -39,7 +39,7 @@ export class GithubRepository {
 
     async getRepositoryListForOrg() {
         const options = this.githubClient.repos.listForOrg.endpoint.merge({
-            org: this.organisation,
+            org: this.organization,
             sort: 'updated',
             per_page: 100
         });
@@ -54,27 +54,27 @@ export class GithubRepository {
     }
 
     async getPRCount() {
-        return this.getCountOfIssueAndPullRequest(`org:${this.organisation} is:pr`);
+        return this.getCountOfIssueAndPullRequest(`org:${this.organization} is:pr`);
     }
 
     async getPROpenCount() {
-        return this.getCountOfIssueAndPullRequest(`org:${this.organisation} is:pr is:open`);
+        return this.getCountOfIssueAndPullRequest(`org:${this.organization} is:pr is:open`);
     }
 
     async getPRCloseCount() {
-        return this.getCountOfIssueAndPullRequest(`org:${this.organisation} is:pr is:close`);
+        return this.getCountOfIssueAndPullRequest(`org:${this.organization} is:pr is:close`);
     }
 
     async getPRMergedCount() {
-        return this.getCountOfIssueAndPullRequest(`org:${this.organisation} is:pr is:merged`);
+        return this.getCountOfIssueAndPullRequest(`org:${this.organization} is:pr is:merged`);
     }
 
     async getPROpenAndApproved() {
-        return this.getCountOfIssueAndPullRequest(`org:${this.organisation} is:pr is:open review:approved`);
+        return this.getCountOfIssueAndPullRequest(`org:${this.organization} is:pr is:open review:approved`);
     }
 
     async getPROpenAndNotApproved() {
-        return this.getCountOfIssueAndPullRequest(`org:${this.organisation} is:pr is:open review:none`);
+        return this.getCountOfIssueAndPullRequest(`org:${this.organization} is:pr is:open review:none`);
     }
 
     private async getCountOfIssueAndPullRequest(query: string) {

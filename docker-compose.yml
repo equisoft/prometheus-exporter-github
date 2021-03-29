@@ -11,7 +11,7 @@ services:
       - LOG_FORMAT
       - LOG_LEVEL
       - GITHUB_TOKEN
-      - GITHUB_ORGANISATION
+      - GITHUB_ORGANIZATION
     ports:
     - "8080:8080"
     command: ["yarn", "start"]

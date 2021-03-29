@@ -11,7 +11,7 @@ WORKDIR /app
 ENV LOG_LEVEL="info" \
     NODE_ENV="production" \
     GITHUB_TOKEN="token" \
-    GITHUB_ORGANISATION="org1" \
+    GITHUB_ORGANIZATION="org1" \
     HTTP_PORT=8080
 
 COPY package.json .

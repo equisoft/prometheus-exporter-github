@@ -18,7 +18,7 @@ export class Injector {
 
     private createGithubExtractor(): GithubExtractor {
         const githubClient = new GithubClientFactory(this.configs.githubClient, this.logger);
-        const githubRepository = new GithubRepository(githubClient.getOctokitClient(), this.configs.github.organisation)
+        const githubRepository = new GithubRepository(githubClient.getOctokitClient(), this.configs.github.organization)
         return new GithubExtractor(githubRepository, this.logger, new Metrics(), this.configs.github);
     }
 

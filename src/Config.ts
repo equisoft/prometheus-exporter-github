@@ -7,7 +7,7 @@ export interface GithubClientConfigs {
 }
 
 export interface GithubConfigs {
-    organisation: string;
+    organization: string;
 }
 
 export interface LogsConfigs {
@@ -33,7 +33,7 @@ export class EnvironmentConfigs implements Configs {
     constructor() {
         Object.assign(this, {
             github: {
-                organisation: process.env.GITHUB_ORGANISATION,
+                organization: process.env.GITHUB_ORGANIZATION,
             },
             githubClient: {
                 token: process.env.GITHUB_TOKEN || 'MISSING',
