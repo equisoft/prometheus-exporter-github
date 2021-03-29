@@ -57,4 +57,4 @@ See [get a Github token](https://github.com/settings/developers).
 Organisation name.
 #### HTTP_PORT
 Port number the http server will listen to.
-Default `80`.
+Default `8080`.

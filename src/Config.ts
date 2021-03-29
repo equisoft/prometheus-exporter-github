@@ -43,7 +43,7 @@ export class EnvironmentConfigs implements Configs {
                 format: process.env.LOG_FORMAT || 'json',
             },
             server: {
-                port: process.env.HTTP_PORT || 80,
+                port: process.env.HTTP_PORT || 8080,
             },
             // 20 min in MS
             timeBetweenExtractionInMS: 1200000,
